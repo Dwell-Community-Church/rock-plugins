@@ -1,6 +1,6 @@
 {
   "name": "rock-documentation",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Rock RMS documentation assistant. Answers staff and developer questions about Rock by routing to and fetching the official Rock documentation.",
   "author": {
     "name": "Dwell Community Church ICT",

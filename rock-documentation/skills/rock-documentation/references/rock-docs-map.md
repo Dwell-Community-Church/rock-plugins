@@ -31,6 +31,12 @@ version — verify rather than assert).
    Don't construct legacy URLs from memory — their IDs are opaque. Use current docs.
 6. If a fetch fails or the runtime can't fetch, **give the user the direct URL** from
    this map so they can read it, plus your best general answer.
+7. **Rock University (video training)** lives at `/rocku` on the same host. Each section below has a
+   **Rock U videos** line with the course catalog (`/rocku/{area}`) and the most useful specific videos.
+   When a video would help, offer it alongside the doc link (see `SKILL.md`). Rock U URLs do **not** take
+   the `?Version=` pin (they're videos, not versioned articles), and a video may demo a different version
+   than the reader's, so keep the same "may look a little different" caveat. Only cite the video links
+   listed here; don't invent new `/rocku/...` slugs. For areas not listed, point to the hub `/rocku`.
 
 ## Map: current docs (`/documentation/...`)
 
@@ -45,6 +51,8 @@ Audience tags — **EU** = everyday staff/end-user, **ADM** = admin/configurer, 
 | Security | `/documentation/core-concepts/security` | Roles, auth, securing entities | ADM |
 | Search | `/documentation/core-concepts/search` | Universal + smart search | EU |
 
+> **Rock U videos** — Rock Fundamentals catalog `/rocku/rock-fundamentals` · Security catalog `/rocku/security`.
+
 ### People & families
 | Topic | URL | Covers | Aud |
 |---|---|---|---|
@@ -54,6 +62,8 @@ Audience tags — **EU** = everyday staff/end-user, **ADM** = admin/configurer, 
 | Families | `/documentation/church-management/people/families` (fetch a child article) | Add/edit, pre-register, blended families | EU |
 | Person Attributes | `/documentation/church-management/people/person-attributes` (fetch a child) | Custom attribute setup & display | ADM |
 
+> **Rock U videos** — catalog `/rocku/people`: Adding & Editing Individuals and Families `/rocku/people/adding-and-editing-individuals-and-families` · Searching for a Person `/rocku/people/searching-for-a-person` · Merging Duplicate Records `/rocku/people/merging-duplicate-records` · Person Profile `/rocku/people/person-profile` · Blended Families `/rocku/people/blended-families` · Known Relationships `/rocku/people/known-relationships` · Bulk Updates `/rocku/people/bulk-updates`
+
 ### Check-in
 | Topic | URL | Covers | Aud |
 |---|---|---|---|
@@ -62,6 +72,8 @@ Audience tags — **EU** = everyday staff/end-user, **ADM** = admin/configurer, 
 | Prepare / Plan | `/documentation/church-management/check-in/prepare-for-check-in` (fetch a child article) | Admin screen, sample configs, planning | ADM |
 | Configure Check-in | `/documentation/church-management/check-in/configure-check-in` (fetch a child article) | Service times, areas/groups, ability levels, schedule builder | ADM |
 | Kiosks / Labels / Manager | `/documentation/church-management/check-in` (fetch a child article) | Device, label, operational setup, Check-in Manager | ADM |
+
+> **Rock U videos** — catalog `/rocku/check-in`: Getting Started `/rocku/check-in/getting-started-1` · Running Check-in `/rocku/check-in/running-check-in` · Check-in Settings `/rocku/check-in/settings` · Check-in Manager `/rocku/check-in/check-in-manager` · Next-Gen Labels `/rocku/check-in/next-gen-labels` · Attendance Analytics `/rocku/check-in/attendance-analytics`
 
 ### Groups & attendance
 | Topic | URL | Covers | Aud |
@@ -76,6 +88,8 @@ Audience tags — **EU** = everyday staff/end-user, **ADM** = admin/configurer, 
 > (`/documentation/engagement/groups/group-attendance`) and check-in-driven attendance
 > under the Check-in section.
 
+> **Rock U videos** — catalog `/rocku/groups`: Group Details `/rocku/groups/group-details` · Group Types `/rocku/groups/group-types` · Group Attendance `/rocku/groups/group-attendance` · Group Requirements `/rocku/groups/group-requirements` · Group Scheduling Overview `/rocku/groups/group-scheduling-overview` · Group RSVP Overview `/rocku/groups/group-rsvp-overview` · Group Security `/rocku/groups/group-security`
+
 ### Reporting / data views
 | Topic | URL | Covers | Aud |
 |---|---|---|---|
@@ -83,6 +97,8 @@ Audience tags — **EU** = everyday staff/end-user, **ADM** = admin/configurer, 
 | Reports | `/documentation/church-management/reporting/reports/create-a-report` (also `.../intro-to-reports`, `.../persist-data-views-in-reports`) | Tabular reports, Lava in reports, security | EU/ADM |
 | Metrics | `/documentation/church-management/reporting/metrics` (fetch a child article) | KPI/metric tracking | ADM |
 | Power BI | `/documentation/church-management/reporting/power-bi` (fetch a child article) | External BI integration | ADM/DEV |
+
+> **Rock U videos** — catalog `/rocku/reporting`: Data View Overview `/rocku/reporting/data-view-overview` · Data View Filter Groups `/rocku/reporting/data-view-filter-groups` · Reports `/rocku/reporting/reports` · Reporting Strategy `/rocku/reporting/reporting-strategy` · BI Overview `/rocku/reporting/bi-overview`
 
 ### Communications
 | Topic | URL | Covers | Aud |
@@ -92,6 +108,8 @@ Audience tags — **EU** = everyday staff/end-user, **ADM** = admin/configurer, 
 | Send a Communication | `/documentation/engagement/communications/send-a-communication` | Wizard, simple editor, comm flows | EU/ADM |
 | Communication Reports | `/documentation/engagement/communications/communication-reports` | Analytics, saturation, unsubscribe | ADM |
 
+> **Rock U videos** — catalog `/rocku/communications`: Communication Overview `/rocku/communications/communication-overview` · Communication Wizard `/rocku/communications/communication-wizard` · Communication Templates `/rocku/communications/communication-templates` · Communication Lists & Segments `/rocku/communications/communication-lists--segments` · SMS Conversations `/rocku/communications/sms-conversations` · Communication Analytics `/rocku/communications/communication-analytics`
+
 ### Giving / finance
 | Topic | URL | Covers | Aud |
 |---|---|---|---|
@@ -100,12 +118,16 @@ Audience tags — **EU** = everyday staff/end-user, **ADM** = admin/configurer, 
 | Payment Gateways | `/documentation/church-management/finance/payment-gateways` | Gateway configuration | ADM/DEV |
 | Contribution Statements / Finance Reports | `/documentation/church-management/finance/contribution-statements` · `.../finance-reports` | Year-end statements & financial reporting | ADM |
 
+> **Rock U videos** — catalog `/rocku/finance`: Financial Basics `/rocku/finance/financial-basics` · Giving Overview `/rocku/finance/giving-overview` · Batches `/rocku/finance/batches` · Contribution Statements `/rocku/finance/contribution-statements` · Online Giving `/rocku/finance/online-giving` · Text Giving `/rocku/finance/text-giving` · Scheduled Transactions `/rocku/finance/scheduled-transactions` · Pledges `/rocku/finance/pledges` · Benevolence `/rocku/finance/benevolence`
+
 ### Workflows
 | Topic | URL | Covers | Aud |
 |---|---|---|---|
 | Workflow Components / Build a Workflow | `/documentation/core-concepts/workflows/workflow-components` · `.../build-a-workflow` | Concepts + step-by-step authoring | ADM |
 | Workflow Actions | `/documentation/core-concepts/workflows/workflow-actions` | Action reference | ADM/DEV |
 | Entry Forms / Form Builder | `/documentation/core-concepts/workflows/entry-forms` · `.../form-builder` | User-facing workflow forms | ADM |
+
+> **Rock U videos** — catalog `/rocku/workflows`: What is a Workflow `/rocku/workflows/what-is-a-workflow` · Components of a Workflow `/rocku/workflows/components-of-a-workflow` · Deconstructing a Sample Workflow `/rocku/workflows/deconstructing-a-sample-workflow` · Workflow Entry `/rocku/workflows/workflow-entry` · Form Builder `/rocku/workflows/form-builder` · Electronic Signatures `/rocku/workflows/electronic-signatures-1`
 
 ### Lava (templating) — root is `/Lava`, not `/documentation`
 | Topic | URL | Covers | Aud |
@@ -116,12 +138,17 @@ Audience tags — **EU** = everyday staff/end-user, **ADM** = admin/configurer, 
 | Commands | `/lava/commands` | entity, SQL, cache, workflow, web-request | DEV |
 | Shortcodes / API | `/lava/shortcodes` · `/lava/lava-api` | Advanced authoring | DEV |
 
+> **Rock U videos** — catalog `/rocku/lava`: What is Lava `/rocku/lava/what-is-lava` · Filters `/rocku/lava/filters` · If Statements `/rocku/lava/if-statements` · For Statement `/rocku/lava/for-statement` · Assign Statement `/rocku/lava/assign-statement` · Entity Commands `/rocku/lava/entity-commands` · SQL Command `/rocku/lava/sql-command` · Lava Shortcodes `/rocku/lava/lava-shortcodes`
+
 ### Developer — root is `/developer`, not `/documentation`
 | Topic | URL | Covers | Aud |
 |---|---|---|---|
 | Developer hub | `/developer` | Learning paths + resource index | DEV |
 | 101 / 202 / 303 | `/developer/101` · `/developer/202` · `/developer/303` | Progressive dev curriculum (entities, data models, migrations) | DEV |
 | REST API / SQL style / plugin packaging | linked from `/developer` | API reference, query standards, distributing code | DEV |
+
+> Rock University is end-user/admin focused and has no developer track; for coding use `/developer`. The
+> closest Rock U videos are the **Lava** ones above.
 
 ## When a topic isn't in this map
 
@@ -130,4 +157,6 @@ URL pattern is `/documentation/{category}/{section}/{chapter}/{article}` with re
 slugs — reason from the five categories (core-concepts, church-management, engagement,
 digital-publishing, supporting-rock), fetch a plausible article URL, and if you hit a
 navigation shell, adjust to a child article. As a last resort, tell the user the closest
-section and link them to `https://community.rockrms.com/documentation`.
+section and link them to `https://community.rockrms.com/documentation`. Rock U also has courses in
+areas not tabled above (Connections, Event Calendar, Steps, LMS, Prayer, Assessments, Content
+Management, Websites, Data) — point to the hub `/rocku` to browse them rather than guessing slugs.

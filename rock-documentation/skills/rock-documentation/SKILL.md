@@ -56,6 +56,19 @@ return "Article was not found"). Most churches run a version or two behind curre
 If the runtime can't fetch web pages, don't guess — give the person the direct doc URL from the map
 plus your best general answer, and note it's worth confirming on that page.
 
+## Offer video training when it helps (Rock University)
+
+Rock also has official video training, **Rock University (Rock U)**, on the same site. When a question
+maps to an area with a relevant Rock U video (the map lists them per section under "Rock U videos"),
+offer the video link **alongside** the doc answer — especially for visual, hands-on, or "show me how"
+questions, or when the person would rather watch than read. Lead with the doc answer; add the video as a
+"want to watch it? here's the Rock U video" option, and only use the links listed in the map (don't
+invent `/rocku/...` slugs).
+
+Rock U links do **not** take the `?Version=` pin (they're videos, not versioned articles), and a video
+may demo a different Rock version than the reader's, so keep the same "may look a little different"
+caveat when the screen could have changed.
+
 ## Scope and honesty
 
 - **Official Rock behavior.** This skill covers how Rock works out of the box. It does **not** cover a
