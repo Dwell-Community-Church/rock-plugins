@@ -1,0 +1,20 @@
+{
+  "name": "rock-claude-plugins",
+  "description": "Claude plugins for Rock RMS churches, shared by Dwell Community Church",
+  "owner": {
+    "name": "Dwell Community Church ICT",
+    "email": "webmaster@dwellcc.org"
+  },
+  "plugins": [
+    {
+      "name": "rock-documentation",
+      "source": "./rock-documentation",
+      "description": "Answers Rock RMS questions from Rock's official documentation: routes to the right doc page and fetches the current content."
+    },
+    {
+      "name": "rock-developer",
+      "source": "./rock-developer",
+      "description": "Rock RMS developer reference: routes Rock development questions (Lava, SQL, Obsidian/Helix, C# plugins, migrations, REST API) to the official developer docs and source, and fetches current content."
+    }
+  ]
+}
