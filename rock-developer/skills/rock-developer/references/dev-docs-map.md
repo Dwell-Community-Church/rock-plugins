@@ -31,12 +31,18 @@ pages track current.
 Everything here is DEV. `Area` tags the kind of work.
 
 ### Learning courses (fundamentals)
+
+The numbered courses (101/202/303) are course landing pages that do **not** return article content to a
+direct fetch (they behave like section hubs — a raw fetch of `/developer/101` returns "Article was not
+found"). `quickstart-tutorials` does return content. To pull real lesson content, open the `/developer`
+hub and harvest the lesson link, or fetch `quickstart-tutorials`.
+
 | Topic | URL | Area |
 |---|---|---|
-| Quickstart tutorials | `/developer/quickstart-tutorials` | onboarding |
-| 101 Launchpad | `/developer/101` | C# / plugin basics |
-| 202 Ignition | `/developer/202` | entities, data model, blocks |
-| 303 Blast Off (advanced) | `/developer/303` | jobs, workflow actions, REST, RealTime, data-view filters |
+| Quickstart tutorials | `/developer/quickstart-tutorials` (directly fetchable) | onboarding |
+| 101 Launchpad | landing page; open `/developer` and harvest the lesson slug | C# / plugin basics |
+| 202 Ignition | landing page; open `/developer` and harvest the lesson slug | entities, data model, blocks |
+| 303 Blast Off (advanced) | landing page; open `/developer` and harvest the lesson slug | jobs, workflow actions, REST, RealTime, data-view filters |
 
 ### Lava (templating), root `/Lava`
 

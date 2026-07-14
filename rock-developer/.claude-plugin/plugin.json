@@ -1,6 +1,6 @@
 {
   "name": "rock-developer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Rock RMS developer reference. Answers Rock development questions (Lava, SQL, Obsidian/Helix blocks, C# plugins, migrations, REST API) from the official Rock developer documentation.",
   "author": {
     "name": "Dwell Community Church ICT",

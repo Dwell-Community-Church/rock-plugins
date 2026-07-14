@@ -25,7 +25,9 @@ version — verify rather than assert).
    fetch to discover, one leaf fetch to answer — never a string of guessed URLs.
 3. **Lava lives at `/Lava`** (and `/lava/filters`, `/lava/tags`, `/lava/commands`,
    `/lava/shortcodes`) — NOT under `/documentation`.
-4. **Developer docs live at `/developer`** (e.g. `/developer/101`) — `/documentation/developer` 404s.
+4. **Developer docs live at `/developer`** (e.g. `/developer/quickstart-tutorials`; the 101/202/303
+   courses are landing pages that don't return content to a direct fetch — open `/developer` and harvest
+   the lesson slug) — `/documentation/developer` 404s.
 5. **Legacy docs (`/legacydocs`, numeric `bookcontent/{id}/{id}` URLs) are a last
    resort only.** They self-declare as superseded ("our documentation has moved").
    Don't construct legacy URLs from memory — their IDs are opaque. Use current docs.
@@ -104,7 +106,7 @@ Audience tags — **EU** = everyday staff/end-user, **ADM** = admin/configurer, 
 | Topic | URL | Covers | Aud |
 |---|---|---|---|
 | Prepare for Communications | `/documentation/engagement/communications/prepare-for-communications` | Lists, templates, transports/mediums | ADM |
-| Email / SMS / Push | `/documentation/engagement/communications/email` (· `/sms` · `/push-notifications`) | Per-channel setup & sending | ADM |
+| Email / SMS / Push | `/documentation/engagement/communications/email` · `/sms` · `/push-notifications` (fetch a child article, e.g. `.../email/intro-to-email`) | Per-channel setup & sending | ADM |
 | Send a Communication | `/documentation/engagement/communications/send-a-communication` | Wizard, simple editor, comm flows | EU/ADM |
 | Communication Reports | `/documentation/engagement/communications/communication-reports` | Analytics, saturation, unsubscribe | ADM |
 
@@ -144,7 +146,7 @@ Audience tags — **EU** = everyday staff/end-user, **ADM** = admin/configurer, 
 | Topic | URL | Covers | Aud |
 |---|---|---|---|
 | Developer hub | `/developer` | Learning paths + resource index | DEV |
-| 101 / 202 / 303 | `/developer/101` · `/developer/202` · `/developer/303` | Progressive dev curriculum (entities, data models, migrations) | DEV |
+| 101 / 202 / 303 courses | landing pages under `/developer` — open the `/developer` hub and harvest the lesson slug (a direct fetch of `/developer/101` returns "Article was not found"); `/developer/quickstart-tutorials` is directly fetchable | Progressive dev curriculum (entities, data models, migrations) | DEV |
 | REST API / SQL style / plugin packaging | linked from `/developer` | API reference, query standards, distributing code | DEV |
 
 > Rock University is end-user/admin focused and has no developer track; for coding use `/developer`. The
