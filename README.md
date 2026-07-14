@@ -1,4 +1,4 @@
-# rock-claude-plugins
+# dwell-rock-plugins
 
 Claude skills and plugins for churches running **Rock RMS**, shared by the ICT team at
 [Dwell Community Church](https://www.dwellcc.org).
@@ -20,9 +20,9 @@ More to come: an example brand skill and a couple of optional staff tools.
 In Claude Code:
 
 ```
-/plugin marketplace add Dwell-Community-Church/rock-claude-plugins
-/plugin install rock-documentation@rock-claude-plugins
-/plugin install rock-developer@rock-claude-plugins
+/plugin marketplace add Dwell-Community-Church/dwell-rock-plugins
+/plugin install rock-documentation@dwell-rock-plugins
+/plugin install rock-developer@dwell-rock-plugins
 ```
 
 ## Looking for the writing and dev-pattern skills?
