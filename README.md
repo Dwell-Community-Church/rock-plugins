@@ -4,7 +4,7 @@ Claude skills and plugins for churches running **Rock RMS**, shared by the ICT t
 [Dwell Community Church](https://www.dwellcc.org).
 
 These are Claude Code and Claude Cowork plugins we built for our own staff and cleaned up to share
-with the Rock community. Use them, fork them, adapt them to your church.
+with the Rock community. Use them, fork them, adapt them to your church. They're sanitized derivatives of what we run internally at Dwell, versioned independently of our internal builds.
 
 > Looking for our general, non-Rock-specific tools (a PowerPoint builder, a daily brief, staff
 > onboarding, and a brand-skill template)? Those live in

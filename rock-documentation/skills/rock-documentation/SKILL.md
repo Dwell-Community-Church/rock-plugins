@@ -80,7 +80,7 @@ caveat when the screen could have changed.
   version and configuration.
 - **Match the answer to the person.** Everyday staff get plain step-by-step guidance; admins and
   developers get configuration/technical depth. Route developer questions to `/developer` and Lava
-  questions to `/Lava`.
+  questions to `/Lava`. If the `rock-developer` skill is installed (ICT and developers), defer writing Lava and code to it. This skill's job is routing to the right documentation, not authoring code.
 
 ## The documentation map
 
