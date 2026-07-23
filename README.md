@@ -17,6 +17,10 @@ with the Rock community. Use them, fork them, adapt them to your church. They're
 | [`rock-documentation`](./rock-documentation) | Answers Rock RMS questions by routing to and fetching Rock's official documentation, so answers stay current instead of guessed from memory. |
 | [`rock-developer`](./rock-developer) | Rock RMS developer reference for Lava, SQL, Obsidian/Helix blocks, C# plugins, migrations, and the REST API, from the official developer docs and the open-source Rock code. |
 
+## Examples
+
+- [`examples/dwell-component-library`](./examples/dwell-component-library) — Dwell's real web component library, shared as a worked example: a gallery of copy-paste components plus a machine-readable `CLAUDE.md` guide that Claude reads to build on-brand pages and Rock HTML blocks. Copy the pattern and adapt it to your church.
+
 ## Install
 
 In Claude Code:

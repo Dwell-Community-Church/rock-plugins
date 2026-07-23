@@ -1,0 +1,1202 @@
+<!-- ============================================================
+     DWELL COMPONENT LIBRARY  ·  page 13112
+     Single self-contained block. Showcase chrome is scoped under
+     #dwell-cl. Every component below is the ACTUAL code pulled
+     from the live dwellcc.org pages (about / resources / counseling
+     / leaders) — real markup, real CSS, real responsive breakpoints.
+     Rock admin wrappers were stripped; component class names left
+     intact. Fonts (Circe / Lato), jQuery, and GSAP are already
+     loaded by the Dwell theme on this site.
+     ============================================================ -->
+<div id="dwell-cl">
+
+<!-- Font + icon loaders so this renders faithfully OFF the Dwell site
+     (e.g. on GitHub Pages). On dwellcc.org these are already loaded by the
+     theme, so they are harmless duplicates. Circe = Typekit; Lato = Google;
+     Font Awesome 6 + v4 shims so the `fa fa-*` icon names resolve. -->
+<!-- Fonts: Circe is a paid Adobe Fonts license Dwell loads from its theme site-wide, so it is not bundled in this shared example. Load your own fonts to preview; the free Lato below is a stand-in. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/v4-shims.min.css">
+
+<!-- ============================================================
+     FOR CLAUDE / DEVELOPERS: machine-readable usage guide is embedded
+     below in <script type="text/markdown" id="dwell-cl-guide">. It does
+     not render. It mirrors CLAUDE.md. To use these components in a new
+     page: read that guide, then copy a component from its
+     <template class="cl-src"> (ignore every cl-* chrome class).
+     ============================================================ -->
+<script type="text/markdown" id="dwell-cl-guide">
+# Dwell Component Library — usage guide
+
+Reusable UI components for dwellcc.org (Rock RMS v17). Pull from here when building any new Dwell page/block instead of designing from scratch. Every component is the real in-production markup + CSS from the live site, with real responsive breakpoints. Circe is the primary font for every component.
+
+## How to use these components
+- Each component is a `<section class="cl-block" id="{ID}">` in this file; its paste-able code lives inside its `<template class="cl-src">…</template>`. Copy the template's inner HTML (a `<style>` + markup, sometimes a `<script>`). Ignore every `cl-`-prefixed element — that is gallery chrome, not the component.
+- Components are self-contained: each carries its own `<style>`. Paste the whole block. Do not extract CSS into a shared sheet unless asked.
+- Circe + Lato, jQuery, GSAP, Font Awesome, and the theme's Bootstrap/theme.css all load site-wide on dwellcc.org — do not re-import them.
+
+## Design tokens
+Fonts: Circe primary everywhere (headings 900; body 400/700). Lato is fallback-only.
+Colors: dark teal #03272D (header/hero/quote + heading text); deep green #034029 (member strip); filter dark #0d2e3a; leaf green #07841B (actions/links/eyebrows/left borders), hover #066916; bright green #6DD400 (filter accent, rsrc icons); lime #72DB2B (header underline, Give button, lime borders/tags); section label #4a9c2d; body text #515E61; card border #E0E5E0 (also #e6ece9/#dfe6e2); soft hover #F5F8F5. Badge tints: green #EAF3DE/#27500A (essay/teaching/podcast), tan #FAEEDA/#633806 (tool/class), teal #E1F5EE/#085041 (story). Events banner gradient #E1F5EE→#EAF3DE, border #5DCAA5.
+Type scale: h1 38–40, h2 26–28, h3 18–24, body 14–16, meta 12–13, eyebrow 12/900/uppercase/2px.
+Radii: 6 / 8 / 10–12px. Content max-width 1080px (marketing), 1100–1200 (app/header/footer). Section padding 40px 40px desktop → 24px 16px mobile.
+Breakpoints used: 900 (grids 3→2, filter→bottom-sheet), 768 (main mobile), 640/560/480 (fine grid tuning). Match these when extending a component.
+
+## Conventions
+- Prefixes: dwl- (marketing), cr- (counseling topics), rsrc-/resource- (resources app), site- (header/footer). Keep them.
+- Class names must be unique per page. About "Featured Events" and resources "Other Content" both use dwl-feat- on the live site; here the events one is renamed dwl-events- so both can coexist.
+- Keep components self-contained and scoped; do not hardcode font imports.
+
+## Dependencies per component (all present site-wide)
+- jQuery + GSAP: site-header (dropdowns), page-title (collapsible mobile nav).
+- Font Awesome: icon-cards (fal), resource-list + resource-cta (fa).
+- theme.css Bootstrap grid: footer, page-title (.container).
+- htmx (live filtering; static markup here): filter-panel, resource-list "Show More".
+
+## Component index (id → use)
+Foundations: colors (palette ref) · typography (Circe scale) · buttons (.btn-dwell-primary green "Add…"; .dwl-give-btn lime primary CTA) · eyebrow (uppercase green section label).
+Page sections: hero (.dwl-hero dark page header) · notice (.dwl-strip member/login strip) · page-title (#pageNav on-page title+subnav; jQuery+GSAP).
+Cards: feature-cards (.dwl-intro 2-up promo) · events (.dwl-events gradient banner + event tiles) · image-cards (.dwl-meet photo+badge callout) · link-cards (.dwl-inv heading+dot links) · icon-cards (.dwl-more icon+text 3-up) · intent-cards (.dwl-intent green left-border, explore-by-interest) · type-cards (.dwl-types lime left-border content types).
+Lists: content-rows (.dwl-feat divider rows w/ colored type badges) · topic-tiles (.cr-section/.cr-grid/.cr-card grouped topics w/ counts).
+Giving: giving-cards (.dwl-learn 2-up info) · split-rows (.dwl-trans info-left/link-right rows) · quote (.dwl-quote full-bleed scripture band).
+Resources app: filter-panel (.resource-filters dark browse sidebar; bottom-sheet <900px) · resource-list (.rsrc-* grouped results + Show More; htmx) · resource-cta (.resource-cta__btn dark→lime pill).
+Site chrome: site-header (.site-header global bar; jQuery) · footer (.site-footer global footer; theme.css grid).
+
+## Composition (typical page order)
+site-header (global) → page-title (optional) → hero → notice (optional) → [content sections: feature-cards / events / image-cards / link-cards / icon-cards / intent-cards / type-cards / content-rows / topic-tiles / giving-cards / split-rows] → quote (optional closer) → footer (global). Sections are max-width:1080px;margin:0 auto with their own padding, so they stack without wrappers. hero and quote intentionally break full-width.
+
+## Adding a new component
+Build it self-contained (own style, Circe, tokens above, unique prefix, responsive ≥768px). Add a `<section class="cl-block" id="{id}">` with an h2, a p.cl-desc, and a div.cl-demo > template.cl-src holding the real code; the gallery auto-builds Preview/Code/Copy. Add it to the sidebar nav and this index.
+</script>
+
+<style>
+/* ---- showcase chrome (scoped, does not ship with components) ---- */
+#dwell-cl *,#dwell-cl *::before,#dwell-cl *::after{box-sizing:border-box}
+#dwell-cl{
+  --dark:#03272d;--green:#07841b;--green-dk:#066916;--lime:#72db2b;
+  --ink:rgba(3,39,45,.73);--muted:rgba(3,39,45,.55);
+  --line:#e6e8ea;--soft:#f8f8fc;--soft2:#f3f3f3;--white:#fff;
+  --head:'Lato',system-ui,sans-serif;
+  --body:'Circe','Lato',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  position:relative;display:flex;gap:0;align-items:flex-start;
+  font-family:var(--body);color:var(--ink);font-size:16px;line-height:1.55;background:var(--white);
+}
+#dwell-cl .cl-hero-head a{color:var(--green);text-decoration:none}
+#dwell-cl .cl-side{position:sticky;top:0;align-self:flex-start;flex:0 0 232px;width:232px;
+  max-height:100vh;overflow-y:auto;padding:28px 18px 40px;border-right:1px solid var(--line);background:var(--white)}
+#dwell-cl .cl-brand{display:flex;align-items:center;gap:9px;margin:0 0 20px;padding:0 6px}
+#dwell-cl .cl-logo{width:26px;height:26px;border-radius:6px;flex:0 0 auto;background:radial-gradient(circle at 50% 45%,var(--lime),var(--green) 70%)}
+#dwell-cl .cl-brand b{font-family:var(--head);font-weight:900;color:var(--dark);font-size:15px;letter-spacing:.02em;line-height:1.05}
+#dwell-cl .cl-brand small{display:block;font-size:9px;letter-spacing:.22em;color:var(--muted);font-weight:700}
+#dwell-cl .cl-search{width:100%;margin:0 0 18px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;font:inherit;font-size:13px;color:var(--dark);background:var(--soft)}
+#dwell-cl .cl-search:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(7,132,27,.15)}
+#dwell-cl .cl-navgrp{margin:0 0 16px}
+#dwell-cl .cl-navgrp h4{margin:0 0 6px;padding:0 8px;font-family:var(--head);font-size:10px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+#dwell-cl .cl-side a{display:block;padding:6px 8px;border-radius:7px;font-size:13.5px;color:var(--ink);line-height:1.3;text-decoration:none}
+#dwell-cl .cl-side a:hover{background:var(--soft);color:var(--dark)}
+#dwell-cl .cl-side a.active{background:rgba(7,132,27,.1);color:var(--green-dk);font-weight:700}
+#dwell-cl .cl-main{flex:1 1 auto;min-width:0;padding:40px clamp(20px,5vw,64px) 120px;max-width:1000px}
+#dwell-cl .cl-hero-head{margin:0 0 44px;padding:0 0 34px;border-bottom:1px solid var(--line)}
+#dwell-cl .cl-hero-head .cl-ey{color:var(--green);font-family:var(--head);font-size:12px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;margin:0 0 12px}
+#dwell-cl .cl-hero-head h1{font-family:var(--head);font-weight:900;color:var(--dark);font-size:clamp(30px,5vw,46px);line-height:1.05;margin:0 0 14px}
+#dwell-cl .cl-hero-head p{margin:0;font-size:18px;color:var(--muted);max-width:660px}
+#dwell-cl .cl-block{margin:0 0 60px;scroll-margin-top:24px}
+#dwell-cl .cl-block>h2{font-family:var(--head);font-weight:900;color:var(--dark);font-size:26px;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+#dwell-cl .cl-block>h2 .cl-anchor{opacity:0;font-size:16px;color:var(--muted);text-decoration:none;transition:.15s}
+#dwell-cl .cl-block>h2:hover .cl-anchor{opacity:1}
+#dwell-cl .cl-block>p.cl-desc{margin:0 0 20px;color:var(--muted);font-size:15.5px;max-width:660px}
+#dwell-cl .cl-demo{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--white)}
+#dwell-cl .cl-tabs{display:flex;align-items:center;gap:2px;padding:8px 8px 0;border-bottom:1px solid var(--line);background:var(--soft)}
+#dwell-cl .cl-tab{appearance:none;border:0;background:none;font:inherit;font-size:13px;font-weight:700;color:var(--muted);padding:8px 14px;border-radius:8px 8px 0 0;cursor:pointer;position:relative;top:1px}
+#dwell-cl .cl-tab.active{color:var(--dark);background:var(--white);border:1px solid var(--line);border-bottom-color:var(--white)}
+#dwell-cl .cl-copy{margin-left:auto;appearance:none;border:1px solid var(--line);background:var(--white);font:inherit;font-size:12px;font-weight:700;color:var(--dark);padding:6px 12px;border-radius:7px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;top:-4px;position:relative}
+#dwell-cl .cl-copy:hover{border-color:var(--green);color:var(--green-dk)}
+#dwell-cl .cl-copy.done{color:var(--green-dk);border-color:var(--green)}
+#dwell-cl .cl-preview{padding:0;background:var(--soft2)}
+#dwell-cl .cl-preview.pad{padding:34px 30px}
+#dwell-cl .cl-code{display:none;margin:0;padding:20px 22px;max-height:460px;overflow:auto;background:#03272d}
+#dwell-cl .cl-code code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.6;color:#d6e8dd;white-space:pre;display:block}
+#dwell-cl .cl-demo.show-code .cl-preview{display:none}
+#dwell-cl .cl-demo.show-code .cl-code{display:block}
+#dwell-cl .cl-swrap{display:flex;flex-wrap:wrap;gap:16px;padding:34px 30px}
+#dwell-cl .cl-sw{width:120px}
+#dwell-cl .cl-sw .chip{height:64px;border-radius:10px;border:1px solid rgba(0,0,0,.06);margin:0 0 8px}
+#dwell-cl .cl-sw b{display:block;font-size:13px;color:var(--dark)}
+#dwell-cl .cl-sw code{font-size:11.5px;color:var(--muted);font-family:ui-monospace,monospace}
+#dwell-cl .cl-note{margin:10px 0 0;font-size:13px;color:var(--muted)}
+@media(max-width:820px){
+  #dwell-cl{display:block}
+  #dwell-cl .cl-side{position:static;width:auto;flex:none;max-height:none;border-right:0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:2px 6px;padding:16px}
+  #dwell-cl .cl-side .cl-brand{flex:1 0 100%}
+  #dwell-cl .cl-side .cl-search{flex:1 0 100%}
+  #dwell-cl .cl-navgrp{margin:0}
+  #dwell-cl .cl-navgrp h4{display:none}
+  #dwell-cl .cl-side a{padding:5px 10px;font-size:12.5px;background:var(--soft)}
+  #dwell-cl .cl-main{padding:28px 18px 80px}
+}
+</style>
+
+<!-- ================= SIDEBAR ================= -->
+<aside class="cl-side">
+  <div class="cl-brand"><span class="cl-logo"></span><span><b>DWELL</b><small>COMPONENT LIBRARY</small></span></div>
+  <input class="cl-search" type="search" placeholder="Filter components&hellip;" aria-label="Filter components">
+  <nav>
+    <div class="cl-navgrp">
+      <h4>Foundations</h4>
+      <a href="#colors">Colors</a>
+      <a href="#typography">Typography</a>
+      <a href="#buttons">Buttons</a>
+      <a href="#eyebrow">Section eyebrow</a>
+    </div>
+    <div class="cl-navgrp">
+      <h4>Page sections</h4>
+      <a href="#hero">Hero band</a>
+      <a href="#notice">Member notice</a>
+      <a href="#page-title">Page title bar</a>
+    </div>
+    <div class="cl-navgrp">
+      <h4>Cards</h4>
+      <a href="#feature-cards">Feature cards</a>
+      <a href="#events">Featured events</a>
+      <a href="#image-cards">Image callout cards</a>
+      <a href="#link-cards">Link cards</a>
+      <a href="#icon-cards">Icon cards</a>
+      <a href="#intent-cards">Explore-interest cards</a>
+      <a href="#type-cards">Resource-type cards</a>
+    </div>
+    <div class="cl-navgrp">
+      <h4>Lists</h4>
+      <a href="#content-rows">Content list rows</a>
+      <a href="#topic-tiles">Topic tiles</a>
+    </div>
+    <div class="cl-navgrp">
+      <h4>Giving</h4>
+      <a href="#giving-cards">Giving info cards</a>
+      <a href="#split-rows">Split link rows</a>
+      <a href="#quote">Scripture quote</a>
+    </div>
+    <div class="cl-navgrp">
+      <h4>Resources app</h4>
+      <a href="#filter-panel">Filter panel</a>
+      <a href="#resource-list">Grouped resource list</a>
+      <a href="#resource-cta">Resource CTA button</a>
+    </div>
+    <div class="cl-navgrp">
+      <h4>Site chrome</h4>
+      <a href="#site-header">Site header</a>
+      <a href="#footer">Footer</a>
+    </div>
+  </nav>
+</aside>
+
+<!-- ================= MAIN ================= -->
+<main class="cl-main">
+  <header class="cl-hero-head">
+    <p class="cl-ey">Dwell Community Church</p>
+    <h1>Component Library</h1>
+    <p>Every reusable block for dwellcc.org, pulled from the live pages &mdash; real markup, real CSS, real responsive breakpoints. Preview a component, flip to Code, copy, paste. This library lives on the Dwell site, so components inherit the theme&rsquo;s Circe/Lato fonts, jQuery, and GSAP.</p>
+  </header>
+
+  <!-- ============ COLORS ============ -->
+  <section class="cl-block" id="colors">
+    <h2>Colors <a class="cl-anchor" href="#colors">#</a></h2>
+    <p class="cl-desc">The real palette used across the site: dark teal surfaces, leaf &amp; lime greens for action, plus the badge tints from the resources page.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<div class="cl-swrap">
+  <div class="cl-sw"><div class="chip" style="background:#03272D"></div><b>Dark teal</b><code>#03272D</code></div>
+  <div class="cl-sw"><div class="chip" style="background:#034029"></div><b>Deep green</b><code>#034029</code></div>
+  <div class="cl-sw"><div class="chip" style="background:#07841B"></div><b>Leaf green</b><code>#07841B</code></div>
+  <div class="cl-sw"><div class="chip" style="background:#6DD400"></div><b>Bright green</b><code>#6DD400</code></div>
+  <div class="cl-sw"><div class="chip" style="background:#72DB2B"></div><b>Lime</b><code>#72DB2B</code></div>
+  <div class="cl-sw"><div class="chip" style="background:#515E61"></div><b>Body text</b><code>#515E61</code></div>
+  <div class="cl-sw"><div class="chip" style="background:#E0E5E0"></div><b>Card border</b><code>#E0E5E0</code></div>
+  <div class="cl-sw"><div class="chip" style="background:#F5F8F5"></div><b>Soft hover</b><code>#F5F8F5</code></div>
+  <div class="cl-sw"><div class="chip" style="background:#EAF3DE"></div><b>Badge green</b><code>#EAF3DE</code></div>
+  <div class="cl-sw"><div class="chip" style="background:#FAEEDA"></div><b>Badge tan</b><code>#FAEEDA</code></div>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ TYPOGRAPHY ============ -->
+  <section class="cl-block" id="typography">
+    <h2>Typography <a class="cl-anchor" href="#typography">#</a></h2>
+    <p class="cl-desc"><b>Circe</b> is the primary font across every component; weight 900 for headings, 400/700 for body.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<div style="padding:34px 30px;font-family:'Circe',sans-serif;color:#515E61">
+  <h1 style="font-family:'Circe',sans-serif;font-weight:900;color:#03272D;font-size:40px;line-height:1.15;margin:0 0 10px">Heading 1 &mdash; Circe 900</h1>
+  <h2 style="font-family:'Circe',sans-serif;font-weight:900;color:#03272D;font-size:26px;line-height:1.2;margin:0 0 10px">Heading 2 &mdash; Circe 900</h2>
+  <h3 style="font-family:'Circe',sans-serif;font-weight:900;color:#03272D;font-size:20px;line-height:1.25;margin:0 0 14px">Heading 3 &mdash; Circe 900</h3>
+  <p style="font-size:16px;line-height:1.6;margin:0 0 8px">Body &mdash; Circe 16px. The quick brown fox jumps over the lazy dog.</p>
+  <p style="font-size:13px;line-height:1.5;margin:0;color:#515E61">Small &mdash; Circe 13px, used for card descriptions and meta.</p>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ BUTTONS ============ -->
+  <section class="cl-block" id="buttons">
+    <h2>Buttons <a class="cl-anchor" href="#buttons">#</a></h2>
+    <p class="cl-desc">The real <code>.btn-dwell-primary</code> (used for &ldquo;Add Resource&rdquo;) and the dark resource CTA pill. Both from the leaders page.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+  .btn-dwell-primary{display:inline-flex;align-items:center;gap:6px;font-family:"circe","Lato",system-ui,sans-serif;font-weight:700;font-size:.875rem;text-transform:uppercase;letter-spacing:1px;padding:10px 20px;border-radius:4px;text-decoration:none;border:none;background:#07841B;color:#fff;transition:background-color .2s ease}
+  .btn-dwell-primary:hover{background:#066916;color:#fff}
+  .btn-dwell-primary .btn-icon{font-size:1.1rem;line-height:1;font-weight:400}
+  .dwl-give-btn{display:inline-block;background:#72DB2B;color:#03272D;font-size:17px;font-weight:900;padding:16px 48px;border-radius:8px;text-decoration:none;letter-spacing:1px;transition:all .25s}
+  .dwl-give-btn:hover{background:#07841B;color:#fff;transform:translateY(-1px)}
+</style>
+<div style="padding:34px 30px;display:flex;flex-wrap:wrap;gap:14px;align-items:center">
+  <a class="btn-dwell-primary" href="#"><span class="btn-icon">+</span> Add Resource</a>
+  <a class="dwl-give-btn" href="/give-now">Give now</a>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ SECTION EYEBROW ============ -->
+  <section class="cl-block" id="eyebrow">
+    <h2>Section eyebrow <a class="cl-anchor" href="#eyebrow">#</a></h2>
+    <p class="cl-desc">The small uppercase green label that opens most content sections (Circe 900, 2px tracking, <code>#07841B</code>).</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<div style="padding:34px 30px;font-family:'Circe',sans-serif">
+  <div style="font-size:12px;font-weight:900;color:#07841B;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">New to Dwell?</div>
+  <h2 style="font-family:'Circe',sans-serif;font-weight:900;color:#03272D;font-size:28px;margin:0">Get connected</h2>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ HERO BAND ============ (resources page) -->
+  <section class="cl-block" id="hero">
+    <h2>Hero band <a class="cl-anchor" href="#hero">#</a></h2>
+    <p class="cl-desc">Dark teal page header with faint decorative circles. Responsive: padding &amp; type shrink under 768px.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.dwl-hero{font-family:'Circe',sans-serif;background:#03272D;padding:66px 40px 32px;text-align:center;position:relative;overflow:hidden}
+.dwl-hero::before{content:'';position:absolute;top:-80px;right:-40px;width:350px;height:350px;background:#07841B;opacity:.08;border-radius:50%}
+.dwl-hero-content{max-width:700px;margin:0 auto;position:relative;z-index:1}
+.dwl-hero h1{font-size:40px;font-weight:900;color:#fff;margin:0 0 10px;line-height:1.15}
+.dwl-hero p{font-size:17px;color:rgba(255,255,255,.6);line-height:1.6;margin:0}
+@media(max-width:768px){.dwl-hero{padding:28px 16px 24px}.dwl-hero h1{font-size:28px}.dwl-hero p{font-size:15px}}
+</style>
+<div class="dwl-hero">
+  <div class="dwl-hero-content">
+    <h1>About Dwell</h1>
+    <p>A home church planting movement in Columbus, Ohio. We believe that authentic Christian community happens best in homes, and that every person can grow to become a disciple-maker.</p>
+  </div>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ MEMBER NOTICE ============ -->
+  <section class="cl-block" id="notice">
+    <h2>Member notice <a class="cl-anchor" href="#notice">#</a></h2>
+    <p class="cl-desc">Thin deep-green strip below the hero prompting members to log in.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.dwl-strip{font-family:'Circe',sans-serif;background:#034029;padding:10px 40px;display:flex;justify-content:center;align-items:center;gap:8px;font-size:13px;flex-wrap:wrap;text-align:center}
+.dwl-strip svg{width:14px;height:14px;fill:rgba(255,255,255,.5);flex-shrink:0}
+.dwl-strip span{color:rgba(255,255,255,.6)}
+.dwl-strip a{color:#72DB2B;font-weight:700;text-decoration:none}
+.dwl-strip a:hover{text-decoration:underline}
+@media(max-width:768px){.dwl-strip{padding:10px 16px;font-size:12px}}
+</style>
+<div class="dwl-strip">
+  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path></svg>
+  <span>Member? <a href="/login">Log in</a> to access saved content, member resources, and more.</span>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ PAGE TITLE BAR ============ -->
+  <section class="cl-block" id="page-title">
+    <h2>Page title bar <a class="cl-anchor" href="#page-title">#</a></h2>
+    <p class="cl-desc">The on-page title/subnav bar. Real responsive behaviour: a gray bar with right-aligned links at &ge;1200px; below that it collapses to a tappable green bar that expands the nav (GSAP). Needs jQuery + GSAP (loaded site-wide).</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+#secBreadcrumb{display:none !important}
+#pageNav .nav-onpage a:focus{background-color:inherit !important;color:rgb(72,72,72) !important}
+#pageNav .onpage{margin-bottom:10px}
+@media screen and (min-width:1200px){
+  #pageNav .nav-onpage{border:0px !important;height:auto !important}
+  #pageNav div.page-title{float:left;font-size:1.3rem}
+  #pageNav ul.nav{justify-content:flex-end !important}
+  #pageNav .nav a:hover{background-color:inherit !important}
+  #pageNav .nav-onpage .nav li.active a{color:rgb(72,72,72) !important;cursor:default}
+  #pageNav .page-title{margin-left:15px}
+  #pageNav .onpage{padding-top:10px;background-color:#e4e4e4;padding-bottom:10px;filter:drop-shadow(0px 2px 4px gray)}
+}
+@media screen and (max-width:1199px){
+  #pageNav .nav-onpage{border:0px !important}
+  #pageNav .nav a{color:white}
+  #pageNav .nav a:hover{background-color:inherit !important}
+  #pageNav .nav li.active a{color:rgb(107,172,67) !important;cursor:default}
+  #pageNav .page-title{margin-left:15px;font-size:1.3rem;color:white;padding-top:10px;padding-bottom:10px}
+  #pageNav .page-title::after{content:' \25BC';font-size:0.8em;margin-left:0.3em;color:white;float:right;margin-right:15px}
+  #pageNav .page-title.noArrow::after{display:none !important}
+  #pageNav .onpage{background-color:#6bac43;filter:drop-shadow(0px 2px 4px gray);cursor:pointer;-webkit-user-select:none;-ms-user-select:none;user-select:none}
+  #pageNav .nav-onpage .nav li{text-align:left}
+  #pageNav .onpage .title-header.container{margin-top:0px !important}
+  #pageNav .nav-onpage{overflow:hidden !important;height:0px}
+  #pageNav .nav-onpage .container{margin-top:20px;padding-bottom:10px}
+  #pageNav .nav-onpage .container .navbar-nav{background-color:rgb(3,39,45);border-radius:12px}
+}
+</style>
+<div id="pageNav">
+  <section class="onpage">
+    <div class="title-header container">
+      <div class="page-title" role="button">Counseling Resources</div>
+    </div>
+    <nav class="nav-onpage">
+      <div class="container">
+        <ul class="nav navbar-nav items-4">
+          <li><a href="/counseling">Overview</a></li>
+          <li class="active"><a href="/counseling/resources">Counseling Resources</a></li>
+          <li><a href="/counseling/workshops">Workshops</a></li>
+          <li><a href="/counseling/interest">Registration</a></li>
+        </ul>
+      </div>
+    </nav>
+  </section>
+</div>
+<script>
+// Requires jQuery + GSAP (loaded site-wide). Tap the title on mobile to expand the nav.
+$(function(){
+  let navOnPage = $(".nav-onpage");
+  if($(".onpage .nav.navbar-nav li").size() == 0){ $(".page-title").addClass('noArrow'); }
+  $(".page-title").on('click', function(){
+    if(navOnPage.hasClass('open')){ gsap.to('.nav-onpage',{height:"0px",duration:0.3}); navOnPage.removeClass('open'); }
+    else { gsap.to('.nav-onpage',{height:"auto",duration:0.3}); navOnPage.addClass('open'); }
+  });
+});
+</script>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ FEATURE CARDS ============ (about → dwl-intro) -->
+  <section class="cl-block" id="feature-cards">
+    <h2>Feature cards <a class="cl-anchor" href="#feature-cards">#</a></h2>
+    <p class="cl-desc">Two-up promo cards with a tag, heading, description, and arrow CTA. Collapses to one column under 768px.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.dwl-intro-wrap{font-family:'Circe',sans-serif;max-width:1080px;margin:0 auto;padding:40px 40px 0;color:#515E61}
+.dwl-intro-label{font-size:12px;font-weight:900;color:#07841B;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px}
+.dwl-intro-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.dwl-intro-card{border-radius:12px;border:1px solid #E0E5E0;background:#fff;padding:32px 28px;text-decoration:none;display:block;transition:all .25s}
+.dwl-intro-card:hover{transform:translateY(-2px);border-color:#07841B;box-shadow:0 4px 16px rgba(7,132,27,.08)}
+.dwl-intro-tag{display:inline-block;background:#F5F8F5;color:#07841B;font-size:10px;font-weight:900;padding:4px 10px;border-radius:4px;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+.dwl-intro-card h3{font-size:24px;font-weight:900;color:#03272D;margin:0 0 10px;line-height:1.2}
+.dwl-intro-card p{font-size:15px;color:#515E61;line-height:1.55;margin:0}
+.dwl-intro-cta{display:inline-block;margin-top:16px;font-size:14px;font-weight:700;color:#07841B}
+.dwl-intro-card:hover .dwl-intro-cta{text-decoration:underline}
+@media(max-width:768px){.dwl-intro-wrap{padding:24px 16px 0}.dwl-intro-pair{grid-template-columns:1fr}.dwl-intro-card{padding:24px 20px}.dwl-intro-card h3{font-size:20px}}
+</style>
+<div class="dwl-intro-wrap">
+  <div class="dwl-intro-label">New to Dwell?</div>
+  <div class="dwl-intro-pair">
+    <a href="/about/our-church" class="dwl-intro-card">
+      <span class="dwl-intro-tag">Who we are</span>
+      <h3>Meet Dwell</h3>
+      <p>Our beliefs, statement of faith, leadership team, and the heart behind what we do as a church.</p>
+      <span class="dwl-intro-cta">Learn about Dwell &rarr;</span>
+    </a>
+    <a href="/about/history" class="dwl-intro-card">
+      <span class="dwl-intro-tag">Our story</span>
+      <h3>Dwell's History</h3>
+      <p>How God has been at work at Dwell since 1971, growing a movement of home churches in Columbus and beyond.</p>
+      <span class="dwl-intro-cta">Read our history &rarr;</span>
+    </a>
+  </div>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ FEATURED EVENTS ============ (about; class renamed dwl-events to avoid clash with content-rows dwl-feat) -->
+  <section class="cl-block" id="events">
+    <h2>Featured events <a class="cl-anchor" href="#events">#</a></h2>
+    <p class="cl-desc">Gradient banner with a &ldquo;Register now&rdquo; tag and a 3-up row of event tiles. Grid goes 3&rarr;2&rarr;1. <span class="cl-note" style="display:inline">Note: on the live site this uses the <code>dwl-feat-</code> prefix; renamed here to <code>dwl-events-</code> so it can coexist with the content-list rows, which also use <code>dwl-feat-</code>.</span></p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.dwl-events-wrap{font-family:'Circe',sans-serif;max-width:1080px;margin:0 auto;padding:40px 40px 0;color:#515E61}
+.dwl-events-label{font-size:12px;font-weight:900;color:#07841B;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px}
+.dwl-events-banner{background:linear-gradient(135deg,#E1F5EE 0%,#EAF3DE 100%);border:1px solid #5DCAA5;border-radius:12px;padding:20px 24px}
+.dwl-events-tag{display:inline-block;background:#07841B;color:#fff;font-size:10px;font-weight:900;padding:5px 12px;border-radius:4px;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+.dwl-events-items{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.dwl-events-item{background:#fff;border:1px solid #E0E5E0;border-radius:8px;padding:14px 18px;text-decoration:none;display:block;transition:all .2s}
+.dwl-events-item:hover{border-color:#07841B;transform:translateY(-1px)}
+.dwl-events-item h4{font-size:14px;font-weight:900;color:#03272D;margin:0 0 3px}
+.dwl-events-item p{font-size:12px;color:#515E61;line-height:1.4;margin:0}
+.dwl-events-item .date{font-size:11px;color:#07841B;font-weight:700;margin-top:6px}
+@media(max-width:900px){.dwl-events-items{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.dwl-events-wrap{padding:24px 16px 0}.dwl-events-items{grid-template-columns:1fr}}
+</style>
+<div class="dwl-events-wrap">
+  <div class="dwl-events-label">Featured Events</div>
+  <div class="dwl-events-banner">
+    <span class="dwl-events-tag">Register now</span>
+    <div class="dwl-events-items">
+      <a href="/middleschool/blowout-camp" class="dwl-events-item"><h4>Blowout Camp 2026</h4><p>Middle School Summer Camp</p><div class="date">June 28-July 3, 2026</div></a>
+      <a href="/oasis/vacation-bible-school" class="dwl-events-item"><h4>VBS registration</h4><p>Vacation Bible School, grades K-5</p><div class="date">June 15-19, 2026</div></a>
+      <a href="/xsi" class="dwl-events-item"><h4>XSI 2026</h4><p>Annual conference for Christian workers</p><div class="date">July 10-11, 2026</div></a>
+    </div>
+  </div>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ IMAGE CALLOUT CARDS ============ (about → dwl-meet) -->
+  <section class="cl-block" id="image-cards">
+    <h2>Image callout cards <a class="cl-anchor" href="#image-cards">#</a></h2>
+    <p class="cl-desc">Photo card with a badge overlay, title, description, and CTA. Two-up, collapsing to one column under 768px. (Real Cloudinary image URLs kept in.)</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.dwl-meet-wrap{font-family:'Circe',sans-serif;max-width:1080px;margin:0 auto;padding:40px 40px 0;color:#515E61}
+.dwl-meet-label{font-size:12px;font-weight:900;color:#07841B;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px}
+.dwl-meet-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.dwl-meet-card{border-radius:12px;overflow:hidden;border:1px solid #E0E5E0;background:#fff;text-decoration:none;display:block;transition:all .25s}
+.dwl-meet-card:hover{transform:translateY(-2px);border-color:#5DCAA5}
+.dwl-meet-img{height:220px;background:#F5F8F5;position:relative;overflow:hidden}
+.dwl-meet-img img{width:100%;height:100%;object-fit:cover;display:block}
+.dwl-meet-img .tag{position:absolute;top:12px;left:12px;background:#72DB2B;color:#03272D;font-size:11px;font-weight:900;padding:5px 12px;border-radius:4px;text-transform:uppercase;letter-spacing:1px}
+.dwl-meet-body{padding:22px}
+.dwl-meet-body h3{font-size:22px;font-weight:900;color:#03272D;margin:0 0 8px}
+.dwl-meet-body p{font-size:15px;color:#515E61;line-height:1.5;margin:0}
+.dwl-meet-cta{display:inline-block;margin-top:14px;font-size:14px;font-weight:700;color:#07841B}
+.dwl-meet-card:hover .dwl-meet-cta{text-decoration:underline}
+@media(max-width:768px){.dwl-meet-wrap{padding:24px 16px 0}.dwl-meet-row{grid-template-columns:1fr}.dwl-meet-img{height:180px}.dwl-meet-body h3{font-size:20px}}
+</style>
+<div class="dwl-meet-wrap">
+  <div class="dwl-meet-label">Come to a meeting</div>
+  <div class="dwl-meet-row">
+    <a href="/visit" class="dwl-meet-card">
+      <div class="dwl-meet-img"><div class="tag">New here?</div><img src="https://res.cloudinary.com/dwellcc/image/upload/f_auto,q_auto,c_lfill,w_1920/v1693424340/sites/default/files/images/College_CT_2.jpg" alt="Sunday gathering at Dwell"></div>
+      <div class="dwl-meet-body"><h3>Visit us</h3><p>Plan your visit to Dwell. Join us throughout the week at our Main Campus, Warehouse, or 4th Street locations in Columbus.</p><span class="dwl-meet-cta">Plan your visit &rarr;</span></div>
+    </a>
+    <a href="/home-churches" class="dwl-meet-card">
+      <div class="dwl-meet-img"><div class="tag">Get connected</div><img src="https://res.cloudinary.com/dwellcc/image/upload/v1711636055/HomeChurches/about-home-churches_2.jpg" alt="Home church gathering"></div>
+      <div class="dwl-meet-body"><h3>Home churches</h3><p>The heart of Dwell is small home Bible studies.</p><span class="dwl-meet-cta">Find a home church &rarr;</span></div>
+    </a>
+  </div>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ LINK CARDS ============ (about → dwl-inv) -->
+  <section class="cl-block" id="link-cards">
+    <h2>Link cards <a class="cl-anchor" href="#link-cards">#</a></h2>
+    <p class="cl-desc">Compact cards with a heading, description, and a dot-separated group of links. Two-up &rarr; one column under 768px.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.dwl-inv-wrap{font-family:'Circe',sans-serif;max-width:1080px;margin:0 auto;padding:40px 40px 0;color:#515E61}
+.dwl-inv-label{font-size:12px;font-weight:900;color:#07841B;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px}
+.dwl-inv-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.dwl-inv-card{border:1px solid #E0E5E0;border-radius:10px;padding:24px;background:#fff;text-decoration:none;display:block;transition:all .25s}
+.dwl-inv-card:hover{transform:translateY(-2px);border-color:#5DCAA5}
+.dwl-inv-card h3{font-size:19px;font-weight:900;color:#03272D;margin:0 0 8px}
+.dwl-inv-card p{font-size:14px;color:#515E61;line-height:1.5;margin:0 0 12px}
+.dwl-inv-card .links{font-size:13px;color:#07841B;font-weight:700;line-height:1.8}
+@media(max-width:768px){.dwl-inv-wrap{padding:24px 16px 0}.dwl-inv-row{grid-template-columns:1fr}}
+</style>
+<div class="dwl-inv-wrap">
+  <div class="dwl-inv-label">Get involved</div>
+  <div class="dwl-inv-row">
+    <a href="/ministries" class="dwl-inv-card"><h3>Ministries</h3><p>Serving people at every stage of life through adult, student, and supporting ministries.</p><div class="links">Adult &middot; Student &middot; Supporting &middot; Serve</div></a>
+    <a href="/missions" class="dwl-inv-card"><h3>Missions</h3><p>Global partners, short-term trips, humanitarian aid, and opportunities to serve worldwide.</p><div class="links">Partners &middot; Trips &middot; AidFund &middot; Get involved</div></a>
+    <a href="/counseling" class="dwl-inv-card"><h3>Counseling</h3><p>Pastoral counseling, workshops, and resources for healing and growth.</p><div class="links">Resources &middot; Workshops &middot; Registration</div></a>
+    <a href="/classes" class="dwl-inv-card"><h3>Take a class</h3><p>Register for current classes on Bible books, theology, and practical ministry skills.</p><div class="links">Class Archive &middot; Leadership training</div></a>
+  </div>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ ICON CARDS ============ (about → dwl-more) -->
+  <section class="cl-block" id="icon-cards">
+    <h2>Icon cards <a class="cl-anchor" href="#icon-cards">#</a></h2>
+    <p class="cl-desc">Icon-plus-text cards in a 3-up grid (3&rarr;2&rarr;1). Uses Font Awesome Light icons (loaded site-wide).</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.dwl-more-wrap{font-family:'Circe',sans-serif;max-width:1080px;margin:0 auto;padding:40px 40px 48px;color:#515E61}
+.dwl-more-label{font-size:12px;font-weight:900;color:#07841B;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px}
+.dwl-more-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.dwl-more-card{border:1px solid #E0E5E0;border-radius:8px;padding:20px;background:#fff;text-decoration:none;display:grid;grid-template-columns:1fr 2fr;gap:16px;align-items:center;transition:all .25s}
+.dwl-more-card:hover{transform:translateY(-1px);border-color:#5DCAA5;background:#F5F8F5}
+.dwl-more-card__icon{display:flex;align-items:center;justify-content:center;font-size:48px;color:#03272D;line-height:1}
+.dwl-more-card__body{min-width:0}
+.dwl-more-card h4{font-size:16px;font-weight:900;color:#03272D;margin:0 0 6px}
+.dwl-more-card p{font-size:13px;color:#515E61;line-height:1.5;margin:0}
+@media(max-width:768px){.dwl-more-wrap{padding:24px 16px 32px}.dwl-more-grid{grid-template-columns:1fr 1fr}.dwl-more-card__icon{font-size:40px}}
+@media(max-width:480px){.dwl-more-grid{grid-template-columns:1fr}}
+</style>
+<div class="dwl-more-wrap">
+  <div class="dwl-more-label">More about Dwell</div>
+  <div class="dwl-more-grid">
+    <a href="/xsi" class="dwl-more-card"><div class="dwl-more-card__icon"><i class="fal fa-graduation-cap" aria-hidden="true"></i></div><div class="dwl-more-card__body"><h4>Summer Institute</h4><p>Our annual conference drawing Christian workers from around the world.</p></div></a>
+    <a href="/news" class="dwl-more-card"><div class="dwl-more-card__icon"><i class="fal fa-newspaper" aria-hidden="true"></i></div><div class="dwl-more-card__body"><h4>News</h4><p>Latest updates and announcements from across the Dwell community.</p></div></a>
+    <a href="/calendar" class="dwl-more-card"><div class="dwl-more-card__icon"><i class="fal fa-calendar" aria-hidden="true"></i></div><div class="dwl-more-card__body"><h4>Events</h4><p>Upcoming events, conferences, and activities. Browse our calendar.</p></div></a>
+    <a href="/personalstories" class="dwl-more-card"><div class="dwl-more-card__icon"><i class="fal fa-film" aria-hidden="true"></i></div><div class="dwl-more-card__body"><h4>Personal Stories</h4><p>Watch video testimonies of how God is transforming lives.</p></div></a>
+  </div>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ EXPLORE-INTEREST CARDS ============ (resources → dwl-intent) -->
+  <section class="cl-block" id="intent-cards">
+    <h2>Explore-interest cards <a class="cl-anchor" href="#intent-cards">#</a></h2>
+    <p class="cl-desc">Green left-border cards for browsing by interest. First card can span two columns (<code>--wide</code>). Grid steps 5&rarr;3&rarr;2&rarr;1 across breakpoints.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.dwl-intent-wrap{font-family:'Circe',sans-serif;max-width:1080px;margin:0 auto;padding:40px 40px 0;color:#515E61}
+.dwl-intent-label{font-size:12px;font-weight:900;color:#07841B;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px}
+.dwl-intent-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:stretch}
+.dwl-intent-card{border-radius:6px;padding:24px 22px 26px;border:1px solid #E0E5E0;border-left:4px solid #07841B;background:#fff;text-decoration:none;display:flex;flex-direction:column;min-height:170px;transition:all .25s}
+.dwl-intent-card:hover{transform:translateY(-2px);background:#F5F8F5}
+.dwl-intent-card--wide{grid-column:span 2}
+.dwl-intent-card h3{font-size:18px;font-weight:900;color:#03272D;margin:0 0 10px;line-height:1.25}
+.dwl-intent-card p{font-size:13px;line-height:1.5;color:#515E61;margin:auto 0 0}
+@media(max-width:900px){.dwl-intent-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:768px){.dwl-intent-wrap{padding:24px 16px 0}.dwl-intent-grid{grid-template-columns:1fr 1fr}.dwl-intent-card{min-height:auto;padding:20px 18px 22px}.dwl-intent-card:first-child{grid-column:span 2}}
+@media(max-width:480px){.dwl-intent-grid{grid-template-columns:1fr}.dwl-intent-card:first-child{grid-column:auto}}
+</style>
+<div class="dwl-intent-wrap">
+  <div class="dwl-intent-label">Explore by interest</div>
+  <div class="dwl-intent-grid">
+    <a href="/teachings" class="dwl-intent-card dwl-intent-card--wide"><h3>Teaching Library</h3><p>Search 5,300+ teachings by book, topic, or teacher</p></a>
+    <a href="/classes/archive" class="dwl-intent-card"><h3>Class Archive</h3><p>Classes and resources organized by Bible book and passage</p></a>
+    <a href="/essays" class="dwl-intent-card"><h3>Essays</h3><p>Explore and apply theological doctrines</p></a>
+    <a href="counseling/resources" class="dwl-intent-card"><h3>Counseling Resources</h3><p>Articles, workshops, and tools organized by topic</p></a>
+  </div>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ RESOURCE-TYPE CARDS ============ (resources → dwl-types) -->
+  <section class="cl-block" id="type-cards">
+    <h2>Resource-type cards <a class="cl-anchor" href="#type-cards">#</a></h2>
+    <p class="cl-desc">Lime left-border cards for content types. 4-up grid collapsing to 2-up under 768px.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.dwl-types-wrap{font-family:'Circe',sans-serif;max-width:1080px;margin:0 auto;padding:16px 40px 0;color:#515E61}
+.dwl-types-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:stretch}
+.dwl-types-card{border-radius:6px;padding:24px 22px 26px;border:1px solid #E0E5E0;border-left:4px solid #72DB2B;background:#fff;text-decoration:none;display:flex;flex-direction:column;min-height:160px;transition:all .25s}
+.dwl-types-card:hover{transform:translateY(-2px);background:#F5F8F5}
+.dwl-types-card h3{font-size:18px;font-weight:900;color:#03272D;margin:0 0 10px;line-height:1.25}
+.dwl-types-card p{font-size:13px;line-height:1.5;color:#515E61;margin:auto 0 0}
+@media(max-width:768px){.dwl-types-wrap{padding:16px 16px 0}.dwl-types-grid{grid-template-columns:1fr 1fr;gap:10px}.dwl-types-card{min-height:auto;padding:20px 18px 22px}}
+</style>
+<div class="dwl-types-wrap">
+  <div class="dwl-types-grid">
+    <a href="/newparadigm" class="dwl-types-card"><h3>Dwell Books</h3><p>Published titles by Dwell pastors</p></a>
+    <a href="/studycenter" class="dwl-types-card"><h3>Study Center</h3><p>Browse 18,000+ items in our lending library</p></a>
+    <a href="/personalstories" class="dwl-types-card"><h3>Personal Stories</h3><p>Video testimonies of God at work</p></a>
+    <a href="/podcast" class="dwl-types-card"><h3>Podcasts</h3><p>Dwell on These Things</p></a>
+  </div>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ CONTENT LIST ROWS ============ (resources → dwl-feat) -->
+  <section class="cl-block" id="content-rows">
+    <h2>Content list rows <a class="cl-anchor" href="#content-rows">#</a></h2>
+    <p class="cl-desc">Divider-separated rows with a colored type badge, title, optional meta, and optional date. Badge tints: essay/teaching/podcast green, tool/class tan, story teal. Rows reflow on mobile.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.dwl-feat-wrap{font-family:'Circe',sans-serif;max-width:1080px;margin:0 auto;padding:40px 40px 48px;color:#515E61}
+.dwl-feat-label{font-size:12px;font-weight:900;color:#07841B;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px}
+.dwl-feat-list{padding-bottom:8px}
+.dwl-feat-item{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid #E0E5E0;text-decoration:none;transition:background .2s}
+.dwl-feat-item:hover{background:#F5F8F5;margin:0 -12px;padding:14px 12px;border-radius:6px}
+.dwl-feat-item:last-child{border-bottom:none}
+.dwl-feat-badge{font-size:10px;font-weight:900;padding:4px 10px;border-radius:4px;text-transform:uppercase;letter-spacing:1px;white-space:nowrap;min-width:80px;text-align:center;flex-shrink:0}
+.dwl-feat-badge.teaching,.dwl-feat-badge.essay,.dwl-feat-badge.podcast{background:#EAF3DE;color:#27500A}
+.dwl-feat-badge.class,.dwl-feat-badge.tool{background:#FAEEDA;color:#633806}
+.dwl-feat-badge.story{background:#E1F5EE;color:#085041}
+.dwl-feat-info{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.dwl-feat-title{font-size:15px;font-weight:700;color:#03272D;margin-bottom:2px}
+.dwl-feat-info.no-meta .dwl-feat-title{margin-bottom:0}
+.dwl-feat-meta{font-size:12px;color:#515E61}
+.dwl-feat-date{font-size:12px;color:#515E61;white-space:nowrap;flex-shrink:0}
+@media(max-width:768px){.dwl-feat-wrap{padding:24px 16px 32px}.dwl-feat-item{flex-wrap:wrap;gap:8px 12px}.dwl-feat-date{width:100%;font-size:11px;padding-left:92px}.dwl-feat-info{flex-basis:calc(100% - 92px)}}
+</style>
+<div class="dwl-feat-wrap">
+  <div class="dwl-feat-label">Other Content</div>
+  <div class="dwl-feat-list">
+    <a href="/essays/biblical-model-for-change" class="dwl-feat-item">
+      <span class="dwl-feat-badge essay">Essay</span>
+      <div class="dwl-feat-info no-meta"><div class="dwl-feat-title">Biblical Model for Change</div></div>
+    </a>
+    <a href="/temperamenttest" class="dwl-feat-item">
+      <span class="dwl-feat-badge tool">Tool</span>
+      <div class="dwl-feat-info no-meta"><div class="dwl-feat-title">Temperament Test</div></div>
+    </a>
+    <a href="/screentimerefresh" class="dwl-feat-item">
+      <span class="dwl-feat-badge tool">Tool</span>
+      <div class="dwl-feat-info"><div class="dwl-feat-title">Screen Time Refresh</div><div class="dwl-feat-meta">Devotional</div></div>
+    </a>
+    <a href="/personalstories" class="dwl-feat-item">
+      <span class="dwl-feat-badge story">Story</span>
+      <div class="dwl-feat-info"><div class="dwl-feat-title">A Story of Redemption</div><div class="dwl-feat-meta">Video testimony</div></div>
+    </a>
+  </div>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ TOPIC TILES ============ (counseling → cr-*) -->
+  <section class="cl-block" id="topic-tiles">
+    <h2>Topic tiles <a class="cl-anchor" href="#topic-tiles">#</a></h2>
+    <p class="cl-desc">Section header (title + count + rule) over an auto-fill grid of topic cards with a hover-reveal left accent and resource count. Tightens under 640px.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.cr-page{max-width:1100px;margin:0 auto;color:#1a1a1a;font-family:'Circe',sans-serif}
+.cr-section{margin-bottom:56px}
+.cr-section-header{display:flex;align-items:baseline;gap:16px;margin-bottom:24px;padding-bottom:12px;border-bottom:2px solid #e6efe9}
+.cr-section-header h2{font-size:26px;margin:0;color:#03272d;font-weight:700}
+.cr-section-header .cr-count{color:#5a6472;font-size:14px;font-weight:500}
+.cr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.cr-card{background:#fff;border:1px solid #e6efe9;border-radius:10px;padding:24px 20px;text-decoration:none;color:#1a1a1a;transition:all .2s ease;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
+.cr-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#07841b;transform:scaleY(0);transform-origin:top;transition:transform .2s ease}
+.cr-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(3,39,45,.12);border-color:#07841b;text-decoration:none;color:#1a1a1a}
+.cr-card:hover::before{transform:scaleY(1)}
+.cr-card .cr-title{font-size:17px;font-weight:600;color:#03272d;line-height:1.3}
+.cr-card .cr-arrow{color:#07841b;font-size:13px;margin-top:auto;font-weight:600;letter-spacing:.3px}
+@media(max-width:640px){.cr-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}.cr-card{padding:20px 16px}}
+</style>
+<div class="cr-page">
+  <div class="cr-section">
+    <div class="cr-section-header"><h2>Inner Life</h2><span class="cr-count">8 topics</span></div>
+    <div class="cr-grid">
+      <a href="/counseling/anger" class="cr-card"><div class="cr-title">Anger</div><div class="cr-arrow">6 Resources &rarr;</div></a>
+      <a href="/counseling/anxiety" class="cr-card"><div class="cr-title">Anxiety</div><div class="cr-arrow">6 Resources &rarr;</div></a>
+      <a href="/counseling/depression" class="cr-card"><div class="cr-title">Depression</div><div class="cr-arrow">4 Resources &rarr;</div></a>
+      <a href="/counseling/sanctification-general" class="cr-card"><div class="cr-title">Sanctification</div><div class="cr-arrow">11 Resources &rarr;</div></a>
+      <a href="/counseling/shame" class="cr-card"><div class="cr-title">Shame</div><div class="cr-arrow">8 Resources &rarr;</div></a>
+    </div>
+  </div>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ GIVING INFO CARDS ============ (give → dwl-learn) -->
+  <section class="cl-block" id="giving-cards">
+    <h2>Giving info cards <a class="cl-anchor" href="#giving-cards">#</a></h2>
+    <p class="cl-desc">Two-up cards with a heading, description, and arrow CTA; lime hover border. Collapses to one column under 768px.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.dwl-learn-wrap{font-family:'Circe',sans-serif;max-width:1080px;margin:0 auto;padding:40px 40px 0;color:#515E61}
+.dwl-learn-label{font-size:12px;font-weight:900;color:#07841B;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px}
+.dwl-learn-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.dwl-learn-card{border:1px solid #E0E5E0;border-radius:10px;padding:24px;background:#fff;text-decoration:none;display:block;transition:all .25s}
+.dwl-learn-card:hover{transform:translateY(-2px);border-color:#72DB2B}
+.dwl-learn-card h3{font-size:18px;font-weight:900;color:#03272D;margin:0 0 6px}
+.dwl-learn-card p{font-size:14px;color:#515E61;line-height:1.5;margin:0}
+.dwl-learn-cta{display:inline-block;margin-top:10px;font-size:13px;font-weight:700;color:#07841B}
+.dwl-learn-card:hover .dwl-learn-cta{text-decoration:underline}
+@media(max-width:768px){.dwl-learn-wrap{padding:24px 16px 0}.dwl-learn-row{grid-template-columns:1fr}}
+</style>
+<div class="dwl-learn-wrap">
+  <div class="dwl-learn-label">Learn about giving</div>
+  <div class="dwl-learn-row">
+    <a href="/give/budget" class="dwl-learn-card">
+      <h3>Budget</h3>
+      <p>See how Dwell allocates funds across ministry areas including home churches, campus outreach, missions, equipping, and operations.</p>
+      <span class="dwl-learn-cta">View budget details &rarr;</span>
+    </a>
+    <a href="/give/fst" class="dwl-learn-card">
+      <h3>Fiscal support team</h3>
+      <p>Learn about giving partnership opportunities and how your giving directly supports specific ministry workers and initiatives.</p>
+      <span class="dwl-learn-cta">Learn more &rarr;</span>
+    </a>
+  </div>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ SPLIT LINK ROWS ============ (give → dwl-trans) -->
+  <section class="cl-block" id="split-rows">
+    <h2>Split link rows <a class="cl-anchor" href="#split-rows">#</a></h2>
+    <p class="cl-desc">Divider-separated rows with info on the left and an action link on the right. Used for financial transparency.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.dwl-trans-wrap{font-family:'Circe',sans-serif;max-width:1080px;margin:0 auto;padding:40px 40px 0;color:#515E61}
+.dwl-trans-label{font-size:12px;font-weight:900;color:#07841B;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px}
+.dwl-trans-item{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid #E0E5E0;flex-wrap:wrap}
+.dwl-trans-item:last-child{border-bottom:none}
+.dwl-trans-info h4{font-size:16px;font-weight:700;color:#03272D;margin:0 0 2px}
+.dwl-trans-info p{font-size:13px;color:#515E61;margin:0}
+.dwl-trans-link{font-size:13px;font-weight:700;color:#07841B;text-decoration:none;white-space:nowrap}
+.dwl-trans-link:hover{text-decoration:underline}
+@media(max-width:768px){.dwl-trans-wrap{padding:24px 16px 0}}
+</style>
+<div class="dwl-trans-wrap">
+  <div class="dwl-trans-label">Financial transparency</div>
+  <div class="dwl-trans-item">
+    <div class="dwl-trans-info">
+      <h4>Annual reports</h4>
+      <p>Detailed financial reports and ministry impact summaries.</p>
+    </div>
+    <a href="/give/annual-reports" class="dwl-trans-link">View reports &rarr;</a>
+  </div>
+  <div class="dwl-trans-item">
+    <div class="dwl-trans-info">
+      <h4>Pledge</h4>
+      <p>Make or update your annual giving commitment.</p>
+    </div>
+    <a href="/pledgecampaign" class="dwl-trans-link">Make a pledge &rarr;</a>
+  </div>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ SCRIPTURE QUOTE ============ (give → dwl-quote) -->
+  <section class="cl-block" id="quote">
+    <h2>Scripture quote <a class="cl-anchor" href="#quote">#</a></h2>
+    <p class="cl-desc">Full-bleed dark band with an oversized quote mark, italic verse, and attribution. Uses <code>width:100vw</code> + negative margins to break out of the content column full-width.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.dwl-quote{font-family:'Circe',sans-serif;background:#03272D;padding:48px 80px;text-align:center;position:relative;overflow:hidden;margin-top:40px;width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw)}
+.dwl-quote::before{content:'\201C';position:absolute;top:10px;left:40px;font-size:120px;color:#72DB2B;opacity:.1;font-family:Georgia,serif;line-height:1}
+.dwl-quote-text{font-size:20px;color:#fff;line-height:1.6;max-width:680px;margin:0 auto 12px;font-style:italic;position:relative;z-index:1}
+.dwl-quote-attr{font-size:13px;color:#72DB2B;font-weight:700;position:relative;z-index:1}
+@media(max-width:768px){.dwl-quote{padding:32px 24px;margin-top:24px}.dwl-quote-text{font-size:17px}.dwl-quote::before{font-size:80px;left:16px;top:6px}}
+</style>
+<div class="dwl-quote">
+  <div class="dwl-quote-text">Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.</div>
+  <div class="dwl-quote-attr">2 Corinthians 9:7</div>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ FILTER PANEL ============ (leaders → resource-filters) -->
+  <section class="cl-block" id="filter-panel">
+    <h2>Filter panel <a class="cl-anchor" href="#filter-panel">#</a></h2>
+    <p class="cl-desc">Dark browse sidebar: search + category/type/sort selects with active state &amp; clear-X, plus clear-all. Real responsive behaviour: below 900px it becomes a fixed bottom sheet (see the Resources app on the live leaders page). Shown here in its desktop shell; wired with htmx + GSAP on-site.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.resource-filters{background:#0d2e3a;border-radius:10px;padding:1.15rem;display:flex;flex-direction:column;gap:1rem;font-family:'Circe',sans-serif;max-width:280px}
+.resource-filters__header{display:flex;align-items:center;gap:.5rem;padding-bottom:.85rem;border-bottom:1px solid rgba(255,255,255,.1)}
+.resource-filters__header-line{width:22px;height:2.5px;background:#6dd400;border-radius:2px;flex-shrink:0}
+.resource-filters__header h3{margin:0;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#fff}
+.resource-filter-selects{display:flex;flex-direction:column;gap:1rem}
+.resource-filters__label{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5);margin-bottom:.3rem}
+.filter-row{display:flex;align-items:stretch;border:1.5px solid rgba(255,255,255,.2);border-radius:6px;overflow:hidden;width:100%;background:rgba(255,255,255,.07)}
+.filter-row input,.filter-row select{flex:1;min-width:0;border:none;outline:none;padding:.45rem .7rem;font-size:.72rem;background:transparent;color:#fff;cursor:pointer}
+.filter-row input::placeholder{color:rgba(255,255,255,.4)}
+.filter-row select option{background:#0d2e3a;color:#fff}
+.resource-filter-clear{background:none;border:1.5px solid rgba(255,255,255,.2);border-radius:6px;padding:.45rem .9rem;font-size:.6rem;font-weight:700;cursor:pointer;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.08em;text-align:center;transition:background .15s ease,color .15s ease,border-color .15s ease}
+.resource-filter-clear:hover{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.4)}
+</style>
+<div class="resource-filters">
+  <div class="resource-filters__header">
+    <div class="resource-filters__header-line"></div>
+    <h3>Browse Resources</h3>
+  </div>
+  <div>
+    <div class="resource-filters__label">Search</div>
+    <div class="filter-row"><input type="search" placeholder="Search resources..." aria-label="Search resources"></div>
+  </div>
+  <div class="resource-filter-selects">
+    <div>
+      <div class="resource-filters__label">Category</div>
+      <div class="filter-row"><select aria-label="Filter by category"><option>All Categories</option><option>Discipleship</option><option>Leadership</option><option>Bible Study</option></select></div>
+    </div>
+    <div>
+      <div class="resource-filters__label">Type</div>
+      <div class="filter-row"><select aria-label="Filter by type"><option>All Types</option><option>Article</option><option>Audio</option><option>Video</option><option>Document</option></select></div>
+    </div>
+    <div>
+      <div class="resource-filters__label">Sort By</div>
+      <div class="filter-row"><select aria-label="Sort"><option>Newest First</option><option>Oldest First</option></select></div>
+    </div>
+  </div>
+  <div class="resource-filter-clear">Clear Filters</div>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ GROUPED RESOURCE LIST ============ (leaders → rsrc-*) -->
+  <section class="cl-block" id="resource-list">
+    <h2>Grouped resource list <a class="cl-anchor" href="#resource-list">#</a></h2>
+    <p class="cl-desc">Category-grouped results: uppercase section label with trailing rule, a bordered white card of rows (green icon tile + title + meta + summary), and a Show More control (htmx-driven on-site). Rows tighten under 560px.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.resource-results-grid{display:flex;flex-direction:column;gap:.8rem;font-family:'Circe',sans-serif;max-width:680px}
+.rsrc-section{display:flex;flex-direction:column;gap:.3rem}
+.rsrc-section__header{display:flex;align-items:center;gap:.6rem}
+.rsrc-section__header span{font-size:.56rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#4a9c2d;white-space:nowrap}
+.rsrc-section__header::after{content:"";flex:1;height:1px;background:#dfe6e2}
+.rsrc-section__body{background:#fff;border:1px solid #e6ece9;border-radius:12px;overflow:hidden}
+.rsrc-row+.rsrc-row,.rsrc-showmore{border-top:1px solid #eef2f0}
+.rsrc-row__link{display:flex;align-items:flex-start;gap:.55rem;padding:.5rem .7rem;text-decoration:none;color:inherit;transition:background .15s ease}
+.rsrc-row__link:hover{background:#f6faf4}
+.rsrc-row__icon{width:23px;height:23px;border-radius:6px;background:#6dd400;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rsrc-row__icon i{font-size:.6rem;color:#14421a}
+.rsrc-row__content{display:flex;flex-direction:column;gap:.08rem;min-width:0}
+.rsrc-row__title{font-size:.72rem;font-weight:700;margin:0;line-height:1.25;color:#12212a;overflow-wrap:anywhere}
+.rsrc-row__meta{font-size:.56rem;color:#6a7883;margin:0}
+.rsrc-row__summary{font-size:.64rem;color:#55636b;margin:.03rem 0 0;line-height:1.45;overflow-wrap:anywhere}
+.rsrc-showmore{width:100%;background:#fff;border:none;padding:.5rem .7rem;font-size:.56rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#4a9c2d;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:background .15s ease}
+.rsrc-showmore:hover{background:#f6faf4}
+@media(max-width:560px){.rsrc-row__link{padding:1.1rem 1.15rem;gap:.85rem}.rsrc-section__header span{white-space:normal}}
+</style>
+<div class="resource-results-grid">
+  <section class="rsrc-section">
+    <div class="rsrc-section__header"><span>Discipleship</span></div>
+    <div class="rsrc-section__body">
+      <article class="rsrc-row">
+        <a href="/leaders/resources/spiritual-gifts-inventory" class="rsrc-row__link">
+          <div class="rsrc-row__icon"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></div>
+          <div class="rsrc-row__content">
+            <h3 class="rsrc-row__title">Spiritual-Gifts Inventory</h3>
+            <p class="rsrc-row__meta">PDF</p>
+            <p class="rsrc-row__summary">A spiritual-gifts self-assessment to help a believer identify their likely gifts through a series of rated questions.</p>
+          </div>
+        </a>
+      </article>
+      <article class="rsrc-row">
+        <a href="/leaders/resources/learning-christian-love" class="rsrc-row__link">
+          <div class="rsrc-row__icon"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></div>
+          <div class="rsrc-row__content">
+            <h3 class="rsrc-row__title">Learning Christian Love</h3>
+            <p class="rsrc-row__meta">Gary DeLashmutt, Dennis McCallum &middot; PDF</p>
+            <p class="rsrc-row__summary">A chapter urging a personal love inventory with practical steps for building intimate non-romantic friendships.</p>
+          </div>
+        </a>
+      </article>
+      <button type="button" class="rsrc-showmore">
+        <span class="rsrc-showmore__label">Show More</span>
+        <i class="fa fa-chevron-down" aria-hidden="true"></i>
+      </button>
+    </div>
+  </section>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ RESOURCE CTA BUTTON ============ (leaders → resource-cta) -->
+  <section class="cl-block" id="resource-cta">
+    <h2>Resource CTA button <a class="cl-anchor" href="#resource-cta">#</a></h2>
+    <p class="cl-desc">Centered dark pill that lifts and turns lime on hover.</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+.resource-cta{max-width:1200px;margin:0 auto;padding:2.5rem 1rem 3rem;text-align:center;font-family:'Circe',sans-serif}
+.resource-cta__btn{display:inline-flex;align-items:center;gap:.6rem;background:#0d2e3a;color:#fff;text-decoration:none;padding:.85rem 1.6rem;border-radius:8px;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;transition:background .15s ease,color .15s ease,transform .15s ease}
+.resource-cta__btn:hover{background:#6dd400;color:#0d2e3a;transform:translateY(-2px)}
+.resource-cta__btn i{font-size:.85rem}
+</style>
+<div class="resource-cta">
+  <a href="/essays?type=leadership" class="resource-cta__btn">
+    <i class="fa fa-book" aria-hidden="true"></i>
+    Explore Additional Leadership Essays
+  </a>
+</div>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ SITE HEADER ============ -->
+  <section class="cl-block" id="site-header">
+    <h2>Site header <a class="cl-anchor" href="#site-header">#</a></h2>
+    <p class="cl-desc">The authentic global top bar &mdash; dark teal with a lime underline, logo, nav links, and utility icons (translate, search, account dropdown). Below 768px the inline nav swaps to a full-width row. Ships with its stylesheet and the dropdown/keyboard JS (needs jQuery; the Google-CSE search overlay lives in a separate block).</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<style>
+  .site-header{background:#03272D;border-bottom:3px solid #72DB2B}
+  .site-header-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;height:72px;gap:0}
+  .site-logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0;margin-right:32px}
+  .site-logo svg.logo-image{height:48px;width:auto}
+  .site-nav{display:flex;align-items:center;height:100%;margin-left:auto}
+  .site-nav a{color:#fff;text-decoration:none;font-family:'Circe',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;font-weight:700;padding:0 24px;height:72px;display:flex;align-items:center;border-bottom:3px solid transparent;margin-bottom:-3px;transition:color .2s,border-color .2s,background .2s;white-space:nowrap}
+  .site-nav a:hover{color:#fff;background:rgba(255,255,255,.05)}
+  .site-nav a.active{color:#72DB2B;border-bottom-color:#72DB2B}
+  .nav-divider{width:1px;height:28px;background:rgba(255,255,255,.15);margin:0 16px;flex-shrink:0}
+  .site-utilities{display:flex;align-items:center;gap:4px;flex-shrink:0}
+  .util-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:6px;color:#fff;text-decoration:none;transition:color .2s,background .2s;cursor:pointer;position:relative;font-size:15px}
+  .util-icon:hover{color:#72DB2B;background:rgba(255,255,255,.08)}
+  button.util-icon{background:transparent;border:0;font:inherit}
+  .util-icon svg{width:18px;height:18px;fill:currentColor}
+  .util-avatar{width:32px;height:32px;border-radius:50%;border:2px solid rgba(114,219,43,.4);transition:border-color .2s;cursor:pointer}
+  .acct-dropdown.is-open .util-avatar,.util-icon:hover .util-avatar{border-color:#72DB2B}
+  .acct-dropdown{position:relative;display:inline-flex;align-items:center}
+  .acct-dropdown-content{display:none;position:absolute;top:100%;right:0;background:#edeeef;min-width:180px;box-shadow:0 8px 16px rgba(0,0,0,.2);padding:12px 16px;z-index:200;border-radius:3px;margin-top:4px}
+  .acct-dropdown.is-open .acct-dropdown-content{display:block}
+  .dropdownItem{cursor:pointer;padding:6px 0;color:#03272D;font-size:14px;text-decoration:none;display:block}
+  .dropdownItem:first-child{border-bottom:1px solid #cfcfcf;padding-bottom:8px;margin-bottom:4px}
+  .dropdownItem:hover,.dropdownItem:focus{color:#07841B!important;outline:none}
+  #google_translate_element{position:absolute;top:100%;right:0;z-index:200;display:none;background:#03272D;padding:8px 12px;border-radius:0 0 6px 6px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+  #google_translate_element.is-open{display:block}
+  .site-header-mobile-nav{display:none}
+  @media screen and (max-width:768px){
+    .site-header-inner{height:62px;padding:0 16px}
+    .site-logo svg.logo-image{height:44px}
+    .site-nav{display:none}
+    .nav-divider{display:none}
+    .site-utilities{margin-left:auto}
+    .site-header-mobile-nav{display:flex;background:#03272D;border-top:1px solid rgba(255,255,255,.08)}
+    .site-header-mobile-nav a{flex:1;text-align:center;padding:13px 8px;color:rgba(255,255,255,.6);text-decoration:none;font-family:'Circe',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;font-weight:700;transition:color .2s;border-bottom:2px solid transparent}
+    .site-header-mobile-nav a:hover{color:#fff}
+    .site-header-mobile-nav a.active{color:#72DB2B;border-bottom-color:#72DB2B}
+  }
+  @media screen and (min-width:769px) and (max-width:920px){
+    .site-nav a{padding:0 14px;font-size:15px}
+    .site-logo{margin-right:16px}
+    .nav-divider{margin:0 8px}
+  }
+</style>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="site-logo" aria-label="Home" href="/">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 177.7 63" class="logo-image"><path fill="#72db2b" d="m89.2 44.4-2.1-3h-1.4v6.8h1.4v-4.5l2 2.7h.2l1.9-2.7v4.5h1.3v-6.8h-1.2zm8.7 0-2.2-3h-1.3v6.8h1.4v-4.5l1.9 2.7h.2l2-2.7v4.5h1.3v-6.8h-1.3zm16.9 1.4-3.4-4.4h-1.1v6.8h1.3v-4.3l3.4 4.3h1v-6.8h-1.2zm3.2-4.4h1.4v6.8h-1.3zm3 1.3h2.1v5.5h1.4v-5.5h2v-1.3H121zm9.5 1.3-1.5-2.6h-1.6l2.4 4v2.8h1.4v-2.8l2.4-4H132zm17.8.1h-2.8v-2.7h-1.3v6.8h1.3v-2.8h2.8v2.8h1.4v-6.8h-1.4zm27.9-2.7v2.7h-2.8v-2.7h-1.3v6.8h1.3v-2.8h2.8v2.8h1.3v-6.8z"/><path fill="#fff" d="M86 25a6.6 6.6 0 0 1-1.6 5 7.2 7.2 0 0 1-5.1 1.6h-3.4v-13h3.4c4.5 0 6.8 2.1 6.8 6.4m1.2-7.3a11.3 11.3 0 0 0-7.8-2.5H69.2v.6a3 3 0 0 0 2.6 2.8L72 34a1.2 1.2 0 0 0 1.2 1.1h6.4c3.4 0 6-.9 7.9-2.6a9.5 9.5 0 0 0 2.8-7.4 9.5 9.5 0 0 0-2.9-7.3m31-2.1-4.7 13.1-4.9-13a1.2 1.2 0 0 0-1-.8h-1.4a1.2 1.2 0 0 0-1 .8l-4.9 13-4.7-13a1.2 1.2 0 0 0-1.1-.7h-3.4l7.3 19a1.2 1.2 0 0 0 1.1.8h1.6a1.2 1.2 0 0 0 1-.8l4.7-12.6 4.8 12.6a1.2 1.2 0 0 0 1.1.7h1.6a1.2 1.2 0 0 0 1.1-.7l7.1-19.2h-3.2a1.2 1.2 0 0 0-1.1.8m11.3 15.7v-5l9.5-.1v-3.4h-9.6v-4.7h10.1v-3.4l-13 .1a1.2 1.2 0 0 0-.8.3 1 1 0 0 0-.3.8v17.6a1.1 1.1 0 0 0 1.2 1.2l13-.1v-3.3zm27-.2H150l-.1-15.9v-.5h-3a1.2 1.2 0 0 0-.7.3 1 1 0 0 0-.4.8l.1 17.6a1.1 1.1 0 0 0 .4.8 1.2 1.2 0 0 0 .8.3h12.6V34a3 3 0 0 0-3-2.8m18-.1h-6.8V14.7h-3a1.2 1.2 0 0 0-.7.3 1 1 0 0 0-.4.8l.1 17.6a1.1 1.1 0 0 0 .4.8 1.2 1.2 0 0 0 .8.3h12.6v-.6a3 3 0 0 0-3-2.8"/><path fill="#72db2b" d="M75.8 46.5a2.4 2.4 0 0 1-1.5.5 2 2 0 0 1-2.2-2.2 2 2 0 0 1 2-2.2 2.4 2.4 0 0 1 1.5.4v.1l.7-1a3 3 0 0 0-2.1-.8 3.5 3.5 0 0 0 0 7 3.1 3.1 0 0 0 2.2-.8l-.5-1zm5.1.5a2.1 2.1 0 0 1-2.1-2.2 2 2 0 1 1 4.1 0 2 2 0 0 1-2 2.2m0-5.7a3.4 3.4 0 0 0-3.5 3.5 3.3 3.3 0 0 0 3.5 3.5 3.4 3.4 0 0 0 3.5-3.5 3.3 3.3 0 0 0-3.5-3.5m26.3 3.8c0 1.3-.5 1.9-1.4 1.9-.7 0-1.5-.3-1.5-2v-3.6h-1.4v3.9a2.7 2.7 0 0 0 3 3 2.7 2.7 0 0 0 1.8-.7 3 3 0 0 0 .8-2.2v-4h-1.3zm34.8 1.4a2.4 2.4 0 0 1-1.5.5 2 2 0 0 1-2.1-2.2 2 2 0 0 1 2-2.2 2.4 2.4 0 0 1 1.4.4l.1.1.6-1a3 3 0 0 0-2-.8 3.5 3.5 0 0 0 0 7 3.1 3.1 0 0 0 2.1-.8l-.5-1zm13.7-1.4c0 1.3-.4 1.9-1.3 1.9-.7 0-1.5-.3-1.5-2v-3.6h-1.4v3.9a2.7 2.7 0 0 0 2.9 3 2.7 2.7 0 0 0 1.9-.7 3 3 0 0 0 .8-2.2v-4h-1.4zm4.5-2.4h.7c.7 0 1.1.3 1.1.9 0 .6-.6.9-1.1.9h-.7zm3.2.8c0-1-.4-2-2.5-2h-2v6.7h1.3v-2.5h.7l1.8 2.5h1.6l-2-2.8a2 2 0 0 0 1.1-1.9m6.6 3a2.4 2.4 0 0 1-1.6.5 2 2 0 0 1-2.1-2.2 2 2 0 0 1 2-2.2 2.4 2.4 0 0 1 1.4.4l.1.1.6-1a3 3 0 0 0-2.1-.8 3.5 3.5 0 0 0 0 7 3.1 3.1 0 0 0 2.2-.8l-.5-1z"/><path fill="#fff" d="M31.1 21.7 23.7 27a.6.6 0 0 0-.3.4v9.9a.4.4 0 0 0 .4.4h15.4a.4.4 0 0 0 .4-.4v-9.9a.6.6 0 0 0-.2-.4l-7.6-5.3a.6.6 0 0 0-.7 0"/><path fill="#07841b" d="M28 9.1c-.1.1-4 5.1 1 6.8 4.3-3.2-.9-6.7-1-6.8m-6.8 2.2c0 .2-2.2 6 3.1 6.1 3.1-4.3-3-6-3-6.1m-5.8 4.2c0 .2-.2 6.4 4.8 4.8 1.6-5-4.6-4.8-4.8-4.8m-4.2 5.7c0 .2 1.8 6.2 6.1 3.1 0-5.3-6-3.1-6.1-3M9.1 28c.1.1 3.6 5.3 6.8 1-1.7-5-6.7-1.1-6.8-1m0 7c.1.2 5.1 4 6.8-1-3.2-4.3-6.7 1-6.8 1m2.2 6.8c.2 0 6 2.2 6.1-3-4.3-3.2-6 2.9-6.1 3m4.2 5.8c.2 0 6.4.2 4.8-4.9-5-1.6-4.8 4.7-4.8 4.9m5.7 4.1c.2 0 6.2-1.8 3.1-6-5.3 0-3.1 5.9-3 6M28 54c.1-.2 5.3-3.7 1-6.8-5 1.6-1.1 6.6-1 6.7m7 .1c.2-.2 4-5.2-1-6.8-4.3 3.1 1 6.6 1 6.7m6.8-2.2c0-.1 2.2-6-3-6-3.2 4.2 2.9 6 3 6m5.8-4.1c0-.2.2-6.5-4.9-4.9-1.6 5 4.7 4.9 4.9 4.9m4.1-5.8c0-.1-1.8-6.2-6-3 0 5.2 5.9 3 6 3M54 35c-.2 0-3.7-5.3-6.8-1 1.6 5 6.6 1.2 6.7 1m.1-7c-.2-.1-5.2-4-6.8 1 3.1 4.3 6.6-.9 6.7-1m-2.2-6.8c-.1 0-6-2.2-6 3.1 4.2 3.1 6-3 6-3m-4.1-5.8c-.2 0-6.5-.2-4.9 4.8 5 1.6 4.9-4.7 4.9-4.8m-5.8-4.2c-.1 0-6.2 1.8-3 6.1 5.2 0 3-6 3-6.1M35 9.1c0 .1-5.3 3.6-1 6.8 5-1.7 1.2-6.6 1-6.8"/><path fill="#72db2b" d="M31.5 0c-.2.2-6.5 6.1 0 9.5 6.6-3.4.2-9.3 0-9.5m-9.7 1.5c-.1.3-4.4 8 3 9.1 5.1-5.2-2.8-9-3-9M13 6c0 .3-1.7 8.8 5.6 7.7C21.9 7.1 13.2 6.1 13 6m-7 7c0 .2 1.1 9 7.7 5.6C15 11.3 6.3 13 6 13m-4.5 8.8c.1.2 3.9 8.1 9.1 3-1.2-7.4-8.8-3.1-9-3M0 31.5c.2.2 6.1 6.6 9.5 0-3.4-6.5-9.3-.2-9.5 0m1.5 9.8c.3 0 8 4.3 9.1-3-5.2-5.2-9 2.7-9 3M6 50c.3 0 8.8 1.7 7.7-5.6C7.1 41.2 6.1 49.9 6 50m7 7c.2 0 9-1.1 5.6-7.7-7.3-1.1-5.6 7.5-5.6 7.7m8.8 4.5c.2-.1 8.1-3.8 3-9-7.4 1.1-3.1 8.8-3 9m9.7 1.5c.2-.1 6.6-6.1 0-9.5-6.5 3.4-.2 9.4 0 9.5m9.8-1.5c0-.2 4.3-7.9-3-9-5.2 5.2 2.7 8.9 3 9M50 57c0-.2 1.7-8.8-5.6-7.7C41.1 56 49.8 57 50 57m7-7c0-.2-1-8.9-7.7-5.5-1.1 7.2 7.5 5.6 7.7 5.5m4.5-8.7c-.1-.3-3.8-8.2-9-3 1.1 7.3 8.8 3 9 3m1.5-9.8c-.1-.1-6.1-6.5-9.5 0 3.4 6.6 9.4.2 9.5 0m-1.5-9.7c-.2-.1-7.9-4.4-9 3 5.2 5.1 8.9-2.8 9-3M57 13c-.2 0-8.8-1.7-7.7 5.6C56 21.9 57 13.2 57 13m-7-7c-.2 0-8.9 1.1-5.5 7.7C51.7 15 50 6.3 50 6m-8.7-4.4c-.3 0-8.2 3.8-3 9 7.3-1.2 3-8.8 3-9"/></svg>
+    </a>
+
+    <nav class="site-nav">
+      <a href="/about">About</a>
+      <a href="/resources" class="active">Resources</a>
+      <a href="/give">Give</a>
+    </nav>
+
+    <div class="nav-divider"></div>
+
+    <div class="site-utilities">
+      <div class="util-icon js-translate-toggle" aria-label="Translate" title="Translate">
+        <svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+        <div id="google_translate_element"></div>
+      </div>
+      <a href="#" class="util-icon js-pagesearch-btn" aria-label="Search" title="Search">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </a>
+      <div class="acct-dropdown" id="acctDropdown">
+        <button type="button" class="util-icon js-acct-toggle" aria-label="My Account menu" aria-haspopup="true" aria-expanded="false" title="My Account">
+          <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-4 0-9 2-9 6v2h18v-2c0-4-5-6-9-6z"/></svg>
+        </button>
+        <div class="acct-dropdown-content" role="menu">
+          <a href="/MyAccount" class="dropdownItem" role="menuitem">My Account</a>
+          <a href="/SavedContent" class="dropdownItem" role="menuitem">Saved Content</a>
+          <a href="/logout" class="dropdownItem" role="menuitem">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="site-header-mobile-nav">
+    <a href="/about">About</a>
+    <a href="/resources" class="active">Resources</a>
+    <a href="/give">Give</a>
+  </div>
+</header>
+
+<script>
+// Requires jQuery (loaded by the Rock theme).
+$(function () {
+  $(".js-translate-toggle").on('click', function (e) {
+    e.stopPropagation();
+    $("#google_translate_element").toggleClass('is-open');
+    $("#acctDropdown").removeClass('is-open');
+    $(".js-acct-toggle").attr('aria-expanded', 'false');
+  });
+  $(".js-acct-toggle").on('click', function (e) {
+    e.stopPropagation(); e.preventDefault();
+    var $d = $("#acctDropdown"), open = $d.hasClass('is-open');
+    $d.toggleClass('is-open', !open);
+    $(this).attr('aria-expanded', !open);
+    $("#google_translate_element").removeClass('is-open');
+  });
+  $(document).on('click', function () {
+    $("#google_translate_element,#acctDropdown").removeClass('is-open');
+    $(".js-acct-toggle").attr('aria-expanded', 'false');
+  });
+  $("#google_translate_element, .acct-dropdown-content").on('click', function (e) { e.stopPropagation(); });
+  $(document).on('keydown', function (e) {
+    if (e.key === 'Escape') { $("#google_translate_element,#acctDropdown").removeClass('is-open'); $(".js-acct-toggle").attr('aria-expanded', 'false'); }
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); $(".js-pagesearch-btn").trigger('click'); }
+  });
+});
+</script>
+      </template>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ (leaders → site-footer; uses theme.css, present site-wide) -->
+  <section class="cl-block" id="footer">
+    <h2>Footer <a class="cl-anchor" href="#footer">#</a></h2>
+    <p class="cl-desc">The real global footer markup (<code>.site-footer</code>). It relies on the theme&rsquo;s Bootstrap grid + footer styles, which are loaded everywhere on dwellcc.org &mdash; so it renders correctly on-site (this preview lacks theme.css, so it appears unstyled here).</p>
+    <div class="cl-demo">
+      <template class="cl-src">
+<footer class="site-footer">
+  <div class="footer-top container flexfix">
+    <div class="row g gy-3 align-items-md-center">
+      <div class="col-xs-12 col-md-6 col-lg-8 logo-address d-flex flex-wrap justify-content-center justify-content-md-start align-items-center">
+        <a href="#" class="logo" aria-label="Dwell Home">
+          <img src="/Themes/Dwell/Assets/Images/dwell-logo-small-dark.svg" alt="" loading="lazy">
+        </a>
+        <div class="address">
+          <a href="https://www.google.com/maps" target="_blank" class="google-map-pin text-lime" aria-label="Google Maps"><i class="fa fa-map-marker"></i></a>
+          <address>
+            <a href="https://www.google.com/maps" target="_blank">123 Example St<br>Your City, ST 00000</a><br>
+            <a href="tel:555-555-5555" target="_blank" class="u-padd-right">555-555-5555</a>
+          </address>
+        </div>
+      </div>
+      <div class="col-xs-6 col-md-3 col-lg-2">
+        <ul class="list-unstyled flex-fill">
+          <li><a href="/home-churches">Home Churches</a></li>
+          <li><a href="/resources">Teachings &amp; Learning</a></li>
+          <li><a href="/ministries">Ministries</a></li>
+          <li><a href="/missions/globalpartners">Missions</a></li>
+        </ul>
+      </div>
+      <div class="col-xs-6 col-md-3 col-lg-2">
+        <ul class="list-unstyled flex-fill">
+          <li><a href="/events">News &amp; Events</a></li>
+          <li><a href="/about">About Dwell</a></li>
+          <li><a href="/supporting-ministries">Serve</a></li>
+          <li><a href="/give">Give</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <section class="footer-bottom">
+    <div class="container flexfix">
+      <div class="row d-flex flex-wrap align-items-center">
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <ul class="list-unstyled list-links d-flex flex-row flex-wrap justify-content-center justify-content-sm-start">
+            <li class="cell shrink"><a href="/contact">Contact Us</a></li>
+            <li class="cell shrink"><a href="/privacy">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="col-xs-12 col-md-4 order-3 order-md-0 text-center">&copy; <strong>2026 DWELL COMMUNITY CHURCH</strong></div>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <ul class="list-footer-social list-unstyled m-0 justify-content-center justify-content-sm-end">
+            <li><a href="/newsletter" title="Newsletter" aria-label="Dwell Newsletter"><img class="icon" src="/Themes/Dwell/Assets/Images/sprites/newsletter-button.svg" width="28" height="28" loading="lazy" alt=""></a></li>
+            <li><a href="https://www.youtube.com/@yourchurch" target="_blank" aria-label="Dwell on YouTube"><img class="icon" src="/Themes/Dwell/Assets/Images/sprites/youtube-button.svg" width="28" height="28" loading="lazy" alt=""></a></li>
+            <li><a href="https://www.facebook.com/yourchurch" target="_blank" aria-label="Dwell on Facebook"><img class="icon" src="/Themes/Dwell/Assets/Images/sprites/facebook-button.svg" width="28" height="28" loading="lazy" alt=""></a></li>
+            <li><a href="https://www.instagram.com/yourchurch/" target="_blank" aria-label="Dwell on Instagram"><img class="icon" src="/Themes/Dwell/Assets/Images/sprites/instagram-button.svg" width="28" height="28" loading="lazy" alt=""></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</footer>
+      </template>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  var root=document.getElementById('dwell-cl');
+  if(!root||root.dataset.clInit)return; root.dataset.clInit='1';
+
+  function dedent(s){
+    s=s.replace(/^\n/,'').replace(/\s+$/,'');
+    var lines=s.split('\n'), min=Infinity;
+    lines.forEach(function(l){ if(l.trim()){ var m=l.match(/^[ \t]*/)[0].length; if(m<min)min=m; }});
+    if(!isFinite(min))min=0;
+    return lines.map(function(l){return l.slice(min);}).join('\n');
+  }
+
+  root.querySelectorAll('.cl-demo').forEach(function(demo){
+    var tpl=demo.querySelector('template.cl-src'); if(!tpl)return;
+    var raw=dedent(tpl.innerHTML);
+
+    var tabs=document.createElement('div'); tabs.className='cl-tabs';
+    var tp=document.createElement('button'); tp.className='cl-tab active'; tp.type='button'; tp.textContent='Preview';
+    var tc=document.createElement('button'); tc.className='cl-tab'; tc.type='button'; tc.textContent='Code';
+    var cp=document.createElement('button'); cp.className='cl-copy'; cp.type='button'; cp.textContent='Copy';
+    tabs.appendChild(tp); tabs.appendChild(tc); tabs.appendChild(cp);
+
+    var prev=document.createElement('div'); prev.className='cl-preview';
+    // Components without their own full-bleed section get inner padding.
+    if(!/class="(dwl-|cr-|site-header|resource-cta|resource-filters|resource-results|site-footer|dwl-strip|dwl-hero)/.test(raw) && !/id="pageNav"/.test(raw)) prev.className+=' pad';
+    var frag=tpl.content.cloneNode(true);
+    // A cloned <script> executes when inserted — strip from the live preview.
+    // Code panel still shows it (built from template text), so copies stay complete.
+    frag.querySelectorAll('script').forEach(function(s){s.remove();});
+    prev.appendChild(frag);
+    var pre=document.createElement('pre'); pre.className='cl-code';
+    var code=document.createElement('code'); code.textContent=raw; pre.appendChild(code);
+
+    demo.insertBefore(tabs,tpl); demo.insertBefore(prev,tpl); demo.insertBefore(pre,tpl);
+
+    tp.addEventListener('click',function(){demo.classList.remove('show-code');tp.classList.add('active');tc.classList.remove('active');});
+    tc.addEventListener('click',function(){demo.classList.add('show-code');tc.classList.add('active');tp.classList.remove('active');});
+    cp.addEventListener('click',function(){
+      var done=function(){cp.textContent='Copied!';cp.classList.add('done');setTimeout(function(){cp.textContent='Copy';cp.classList.remove('done');},1600);};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(raw).then(done,fallback);}
+      else fallback();
+      function fallback(){var ta=document.createElement('textarea');ta.value=raw;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');done();}catch(e){}document.body.removeChild(ta);}
+    });
+  });
+
+  var search=root.querySelector('.cl-search');
+  if(search){
+    search.addEventListener('input',function(){
+      var q=this.value.trim().toLowerCase();
+      root.querySelectorAll('.cl-block').forEach(function(b){
+        var h=b.querySelector('h2'); var t=h?h.textContent.toLowerCase():'';
+        b.style.display=(!q||t.indexOf(q)>-1)?'':'none';
+      });
+      root.querySelectorAll('.cl-side a').forEach(function(a){
+        var t=a.textContent.toLowerCase();
+        a.style.display=(!q||t.indexOf(q)>-1)?'':'none';
+      });
+    });
+  }
+
+  var links=Array.prototype.slice.call(root.querySelectorAll('.cl-side a[href^="#"]'));
+  var map={}; links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(ents){
+      ents.forEach(function(e){
+        if(e.isIntersecting){var a=map[e.target.id];if(a){links.forEach(function(x){x.classList.remove('active');});a.classList.add('active');}}
+      });
+    },{rootMargin:'-10% 0px -80% 0px'});
+    root.querySelectorAll('.cl-block').forEach(function(b){io.observe(b);});
+  }
+})();
+</script>
+
+</div>
+<!-- ============ END DWELL COMPONENT LIBRARY ============ -->
